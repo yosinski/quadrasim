@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 	initRendering();
 	
 
-	//*
+	/*
 	QuadroEvolutionHarness quadroEvo(42);
 	quadroEvo.evolve(false);
 	quadroEvo.printStatistics();

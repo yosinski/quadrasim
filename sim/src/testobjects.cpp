@@ -104,12 +104,12 @@ void quadroLoop(const std::string &controlFileName, const std::string &logFileNa
 	static double lastTime=0;
 	bool animateJoints=false;
 	bool running = true;
-	gScene->setGravity(NxVec3(0,-9.81*100.0,0));
-	simTimeStep=QUADRO_TIMESTEP;
 
 	if(!controlFileName.empty()) {
 		QuadroParams *p=new QuadroParams;
 		QuadroMachine* m=new QuadroMachine(p);
+		gScene->setGravity(NxVec3(0,-9.81*100.0,0));
+		simTimeStep=QUADRO_TIMESTEP;
 		//if(quadroHW) quadroHW->init(p);
 		//if(quadroHW)
 		//	quadroHW->loadPlaybackFile(playbackFileName);
@@ -144,6 +144,8 @@ void quadroLoop(const std::string &controlFileName, const std::string &logFileNa
 				QuadroParams *p=new QuadroParams;
 				if(loadParams && -1==p->loadFromFile("log_bestind.txt")) systemError("could not load quadroparams");
 				QuadroMachine* m=new QuadroMachine(p);
+				gScene->setGravity(NxVec3(0,-9.81*100.0,0));
+				simTimeStep=QUADRO_TIMESTEP;
 				if(quadroHW) quadroHW->init(p);
 				if(glfwGetKey(GLFW_KEY_RALT)) {
 					char* playbackFileName="example_log_1.txt";
