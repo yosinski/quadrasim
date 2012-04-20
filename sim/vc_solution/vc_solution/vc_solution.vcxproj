@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C3229E4F-5C4A-4EBB-AECA-40D57833BCF0}</ProjectGuid>
+    <RootNamespace>vc_solution</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files (x86)\ROBOTIS\USB2Dynamixel\import;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files (x86)\ROBOTIS\USB2Dynamixel\import;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files (x86)\ROBOTIS\USB2Dynamixel\import;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files (x86)\ROBOTIS\USB2Dynamixel\import;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(PHYSX_SDK_PATH)\Physics\include;$(PHYSX_SDK_PATH)\PhysXLoader\include;$(PHYSX_SDK_PATH)\Foundation\include;$(PHYSX_SDK_PATH)\Cooking\include;$(CG_INC_PATH);$(GALIB_PATH);$(GLEW_PATH)\include;$(GLFW_PATH)\include;$(JPEG_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE; _CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>libjpeg.lib;glfw.lib;glfwdll.lib;opengl32.lib;glu32.lib;glew32.lib;PhysXLoader.lib;cg.lib;cgGL.lib;ga_debug.lib;%(AdditionalDependencies);dynamixel.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(CG_LIB_PATH);$(PHYSX_SDK_PATH)\lib\Win32;$(GLFW_PATH)\lib-msvc;$(GLEW_PATH)\lib;$(GALIB_PATH)\ga;$(JPEG_PATH);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(PHYSX_SDK_PATH)\Physics\include;$(PHYSX_SDK_PATH)\PhysXLoader\include;$(PHYSX_SDK_PATH)\Foundation\include;$(PHYSX_SDK_PATH)\Cooking\include;$(CG_INC_PATH);$(GALIB_PATH);$(GLEW_PATH)\include;$(GLFW_PATH)\include;$(JPEG_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>$(CG_LIB_PATH);$(PHYSX_SDK_PATH)\lib\Win32;$(GLFW_PATH)\lib-msvc;$(GLEW_PATH)\lib;$(GALIB_PATH)\ga;$(JPEG_PATH);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libjpeg.lib;glfw.lib;glfwdll.lib;opengl32.lib;glu32.lib;glew32.lib;PhysXLoader.lib;cg.lib;cgGL.lib;ga_release.lib;%(AdditionalDependencies);dynamixel.lib</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>libcmtd.lib;libcpmtd.lib;mcvcrt.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\base\Commandline.cpp" />
+    <ClCompile Include="..\..\src\base\Wingetopt.c" />
+    <ClCompile Include="..\..\src\evolutionharness.cpp" />
+    <ClCompile Include="..\..\src\graphics\Overlay.cpp" />
+    <ClCompile Include="..\..\src\hardware\axservo.cpp" />
+    <ClCompile Include="..\..\src\hardware\quadrohardware.cpp" />
+    <ClCompile Include="..\..\src\machines\quadrobot.cpp" />
+    <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\part.cpp" />
+    <ClCompile Include="..\..\src\physics.cpp" />
+    <ClCompile Include="..\..\src\testobjects.cpp" />
+    <ClCompile Include="..\..\src\physx\cooking.cpp" />
+    <ClCompile Include="..\..\src\physx\MyCloth.cpp" />
+    <ClCompile Include="..\..\src\physx\Stream.cpp" />
+    <ClCompile Include="..\..\src\physx\VertexWelder.cpp" />
+    <ClCompile Include="..\..\src\physx\wavefront.cpp" />
+    <ClCompile Include="..\..\src\machines\quadromachine.cpp" />
+    <ClCompile Include="..\..\src\graphics\DebugRenderer.cpp" />
+    <ClCompile Include="..\..\src\graphics\fbo.cpp" />
+    <ClCompile Include="..\..\src\graphics\graphics.cpp" />
+    <ClCompile Include="..\..\src\graphics\GraphicsObject.cpp" />
+    <ClCompile Include="..\..\src\graphics\material.cpp" />
+    <ClCompile Include="..\..\src\graphics\MeshGraphicsObject.cpp" />
+    <ClCompile Include="..\..\src\graphics\shaders.cpp" />
+    <ClCompile Include="..\..\src\graphics\Texture.cpp" />
+    <ClCompile Include="..\..\src\graphics\Vertex.cpp" />
+    <ClCompile Include="..\..\src\base\floatparamlist.cpp" />
+    <ClCompile Include="..\..\src\base\floatparammultivallist.cpp" />
+    <ClCompile Include="..\..\src\base\kmath.cpp" />
+    <ClCompile Include="..\..\src\base\system.cpp" />
+    <ClCompile Include="..\..\src\base\tools.cpp" />
+    <ClCompile Include="..\..\src\base\Vec3.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\base\Commandline.h" />
+    <ClInclude Include="..\..\src\base\Wingetopt.h" />
+    <ClInclude Include="..\..\src\evolutionharness.h" />
+    <ClInclude Include="..\..\src\graphics\Overlay.h" />
+    <ClInclude Include="..\..\src\hardware\axservo.h" />
+    <ClInclude Include="..\..\src\hardware\quadrohardware.h" />
+    <ClInclude Include="..\..\src\machines\machine.h" />
+    <ClInclude Include="..\..\src\machines\quadrobot.h" />
+    <ClInclude Include="..\..\src\part.h" />
+    <ClInclude Include="..\..\src\physics.h" />
+    <ClInclude Include="..\..\src\testobjects.h" />
+    <ClInclude Include="..\..\src\physx\cooking.h" />
+    <ClInclude Include="..\..\src\physx\ErrorStream.h" />
+    <ClInclude Include="..\..\src\physx\MyCloth.h" />
+    <ClInclude Include="..\..\src\physx\Stream.h" />
+    <ClInclude Include="..\..\src\physx\VertexWelder.h" />
+    <ClInclude Include="..\..\src\physx\wavefront.h" />
+    <ClInclude Include="..\..\src\machines\quadromachine.h" />
+    <ClInclude Include="..\..\src\graphics\DebugRenderer.h" />
+    <ClInclude Include="..\..\src\graphics\fbo.h" />
+    <ClInclude Include="..\..\src\graphics\glstuff.h" />
+    <ClInclude Include="..\..\src\graphics\graphics.h" />
+    <ClInclude Include="..\..\src\graphics\GraphicsObject.h" />
+    <ClInclude Include="..\..\src\graphics\material.h" />
+    <ClInclude Include="..\..\src\graphics\MeshGraphicsObject.h" />
+    <ClInclude Include="..\..\src\graphics\shaders.h" />
+    <ClInclude Include="..\..\src\graphics\Texture.h" />
+    <ClInclude Include="..\..\src\graphics\Vertex.h" />
+    <ClInclude Include="..\..\src\base\floatparamlist.h" />
+    <ClInclude Include="..\..\src\base\floatparammultivallist.h" />
+    <ClInclude Include="..\..\src\base\kmath.h" />
+    <ClInclude Include="..\..\src\base\system.h" />
+    <ClInclude Include="..\..\src\base\tools.h" />
+    <ClInclude Include="..\..\src\base\Vec3.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\data\shaders\f_blur.cg" />
+    <None Include="..\..\data\shaders\f_notex.cg" />
+    <None Include="..\..\data\shaders\f_stdmaterial.cg" />
+    <None Include="..\..\data\shaders\f_test.cg" />
+    <None Include="..\..\data\shaders\v_passthru.cg" />
+    <None Include="..\..\data\shaders\v_stdmaterial.cg" />
+    <None Include="..\..\data\shaders\v_test.cg" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,84 @@
+//simple blur shader
+//both directions, square textures
+
+struct InType {
+	float4 position : POSITION;
+	float2 tCoord   : TEXCOORD0;
+	float3 normal   : TEXCOORD1;
+	float3 lightVec : TEXCOORD2;
+	float3 viewVec  : TEXCOORD3;
+};
+
+
+struct OutType {
+  float4 color : COLOR;
+};
+
+
+/*float4 gFilter[7] = 
+{ 
+  -3.0, 0.0, 0.0,  1.0/64.0,
+  -2.0, 0.0, 0.0,  6.0/64.0,
+  -1.0, 0.0, 0.0, 15.0/64.0,
+   0.0, 0.0, 0.0, 20.0/64.0,
+   1.0, 0.0, 0.0, 15.0/64.0,
+   2.0, 0.0, 0.0,  6.0/64.0,
+   3.0, 0.0, 0.0,  1.0/64.0 
+};*/
+
+ 
+ 
+ 
+#define FSIZE 9
+/*float4 gFilter[FSIZE] = 
+{ 
+	-1, -1, 0.0,  1.0/16.0,
+	 0, -1, 0.0,  2.0/16.0,
+	 1, -1, 0.0,  1.0/16.0,
+	-1,  0, 0.0,  2.0/16.0,
+	 0,  0, 0.0,  4.0/16.0,
+	 1,  0, 0.0,  2.0/16.0,
+	-1,  1, 0.0,  1.0/16.0,
+	 0,  1, 0.0,  2.0/16.0,
+	 1,  1, 0.0,  1.0/16.0,
+};*/
+
+float4 gFilter[FSIZE] = 
+{ 
+	-1, -1, 0.0,  2.0/24.0,
+	 0, -1, 0.0,  3.0/24.0,
+	 1, -1, 0.0,  2.0/24.0,
+	-1,  0, 0.0,  3.0/24.0,
+	 0,  0, 0.0,  4.0/24.0,
+	 1,  0, 0.0,  3.0/24.0,
+	-1,  1, 0.0,  2.0/24.0,
+	 0,  1, 0.0,  3.0/24.0,
+	 1,  1, 0.0,  2.0/24.0,
+};
+
+ 
+// 1 2 1 
+// 2 4 2  
+// 1 2 1 
+
+OutType f_blur(
+	InType i, 
+	uniform sampler2D tex : TEX0,
+	uniform float tStep
+)
+{
+	OutType o;
+	//float4 base = tex2D(tex,i.texCoord);
+
+	float4 color = 0.0;
+
+	int s;
+	for (s=0;s<FSIZE;s++)
+	{
+		color += tex2D(tex,float2(i.tCoord.x+gFilter[s].x*tStep, i.tCoord.y+gFilter[s].y*tStep)) * gFilter[s].w;
+	}
+
+	o.color=color;
+	return o;
+}
+

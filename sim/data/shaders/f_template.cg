@@ -1,0 +1,13 @@
+// This is C2E2f_passthru from "The Cg Tutorial" (Addison-Wesley, ISBN
+// 0321194969) by Randima Fernando and Mark J. Kilgard.  See page 53.
+
+struct OutType {
+  float4 color : COLOR;
+};
+
+OutType f_test(float2 texCoord : TEXCOORD0, uniform sampler2D tex : TEX0)
+{
+  OutType o;
+  o.color = tex2D(tex,texCoord);
+  return o;
+}

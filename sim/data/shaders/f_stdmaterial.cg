@@ -1,0 +1,36 @@
+
+struct InType {
+	float4 position : POSITION;
+	float2 texCoord : TEXCOORD0;
+	float3 normal   : TEXCOORD1;
+	float3 lightVec : TEXCOORD2;
+	float3 viewVec  : TEXCOORD3;
+};
+
+
+struct OutType {
+  float4 color : COLOR;
+};
+
+
+OutType f_stdmaterial(
+	InType i, 
+	uniform sampler2D tex : TEX0,
+	uniform float3 col
+)
+{
+	OutType o;
+	//float4 base = float4(0.7,0.7,0.7,1);
+	float4 base = float4(col,1);
+	i.normal   = normalize(i.normal);
+	i.lightVec = normalize(i.lightVec);
+	i.viewVec  = normalize(i.viewVec);
+
+	float diffuse = saturate(dot(i.lightVec, i.normal));
+	float specular = pow(saturate(dot(reflect(-i.viewVec, i.normal), i.lightVec)), 16);
+
+	//simple ambient and specular
+	o.color=base*(diffuse+0.25) + 0.9*specular;
+	return o;
+}
+
