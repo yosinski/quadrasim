@@ -1,0 +1,24 @@
+
+struct InType {
+	float4 position : POSITION;
+	float2 texCoord : TEXCOORD0;
+};
+
+struct OutType {
+	float4 position : POSITION;
+	float2 texCoord : TEXCOORD0;
+};
+
+
+OutType v_test(	InType i )
+{	
+	OutType o;
+
+	o.position = i.position;
+	o.texCoord = i.texCoord;
+
+	return o;	
+}
+
+
+

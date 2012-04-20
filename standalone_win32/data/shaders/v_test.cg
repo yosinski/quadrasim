@@ -1,0 +1,51 @@
+//should do lighting calculation in view space, less setup
+//viewpos is then fixed
+//lightpos should be transformed in from world space
+//needs modelview matrix for transformations
+
+struct InType {
+	float4 position : POSITION;
+	float3 normal   : NORMAL;
+	float2 texCoord : TEXCOORD0;
+};
+
+struct OutType {
+	float4 position : POSITION;
+	float2 texCoord : TEXCOORD0;
+	float3 normal   : TEXCOORD1;
+	float3 lightVec : TEXCOORD2;
+	float3 viewVec  : TEXCOORD3;
+};
+
+
+//OutType v_test(float4 position : POSITION, uniform float4x4 modelViewProj, float2 texCoord : TEXCOORD0)
+OutType v_test(	
+	InType i,
+	uniform float4x4 worldViewProj,
+	uniform float4x4 worldView,
+	uniform float4x4 view,
+	uniform float4 lightPos
+	//uniform float4 viewPos
+)
+{	
+	OutType o;
+	float4 viewPos = float4(0,0,1,1); //z=1 ok?
+	float4 lightPosView;
+	float4 posView;
+
+	o.position = mul(worldViewProj,i.position);
+	o.texCoord = i.texCoord;
+
+	o.normal = mul((float3x3)worldView, i.normal );  //normals to view space
+	posView = mul(worldView, i.position );  //position to view space
+	lightPosView= mul(view, lightPos );  //light to view space
+
+	o.lightVec = lightPosView.xyz - posView.xyz;
+	//normalize(o.lightVec);
+	o.viewVec = viewPos.xyz - posView.xyz;
+
+	return o;	
+}
+
+
+

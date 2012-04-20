@@ -1,0 +1,24 @@
+
+struct InType {
+	float4 position : POSITION;
+	float2 texCoord : TEXCOORD0;
+};
+
+struct OutType {
+	float4 position : POSITION;
+	float2 texCoord : TEXCOORD0;
+};
+
+
+//OutType v_test(float4 position : POSITION, uniform float4x4 modelViewProj, float2 texCoord : TEXCOORD0)
+OutType v_test(	InType i,
+				uniform float4x4 modelViewProj)
+{	
+	OutType o;
+
+	o.position = mul(modelViewProj,i.position);
+	o.texCoord = i.texCoord;
+
+	return o;	
+}
+
