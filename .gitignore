@@ -4,7 +4,6 @@
 
 *.binobj
 log_*.txt
-!standalone_win32/log_bestind.txt
 
 Debug/
 Release/

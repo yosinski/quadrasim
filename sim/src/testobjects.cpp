@@ -150,7 +150,7 @@ void quadroLoop(const std::string &controlFileName, const std::string &logFileNa
 				if(glfwGetKey(GLFW_KEY_RALT)) {
 					char* playbackFileName="example_log_1.txt";
 					//m->loadPlaybackFile(playbackFileName);
-					m->loadPlaybackFile("fixed_positions.txt");
+					m->loadPlaybackFile("cmd_fixed_positions.txt");
 					if(quadroHW)
 						quadroHW->loadPlaybackFile(playbackFileName);
 				}
