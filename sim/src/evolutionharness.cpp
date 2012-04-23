@@ -9,6 +9,7 @@
 #include <fstream>
 #define cout STD_COUT
 
+
 EvolutionHarness::EvolutionHarness()
 {
 	m_ga=NULL;
