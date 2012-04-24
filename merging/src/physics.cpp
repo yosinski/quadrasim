@@ -2,6 +2,9 @@
 #include "base/system.h"
 #include "physx/cooking.h"
 #include "physx/MyCloth.h" //could update this to own class later
+#include <iostream>
+#include <vector>
+#include <boost/foreach.hpp>
 
 NxPhysicsSDK* gPhysicsSDK = NULL;
 NxScene* gScene = NULL;
@@ -12,7 +15,6 @@ bool gCookingInitialized=false;
 //bool gHardwareSimulation=true;
 bool gHardwareSimulation=false;
 bool gFreeze=false;
-
 std::vector<Part *> parts;
 std::vector<NxRevoluteJoint *> joints; 
 std::vector<MyCloth *> cloths; //at least for now
@@ -122,11 +124,11 @@ void initPhysics()
 void terminatePhysics()
 {
 
-	for each(MyCloth* c in cloths)
+	BOOST_FOREACH(MyCloth* c, cloths)
 		delete c;
 	cloths.clear();
 
-	for each(Part* p in parts)
+	BOOST_FOREACH(Part* p, parts)
 		delete p;
 	parts.clear();
 
@@ -166,12 +168,12 @@ const char* getNxSDKCreateError(const NxSDKCreateError& errorCode)
 
 
 
-NxActor* createSphere(NxVec3& pos, float size)
+NxActor* createSphere(const NxVec3& pos, float size)
 {
 	if(gScene == NULL || !gScene->isWritable()) return NULL;	
 
 	NxActorDesc actorDesc;
-	NxBodyDesc bodyDesc; //body desc required for dynamic actors
+	NxBodyDesc bodyDesc; //body description required for dynamic actors
 	NxSphereShapeDesc sphereDesc;
 	sphereDesc.radius		= size;
 	sphereDesc.localPose.t	= NxVec3(0, 0, 0);
@@ -191,7 +193,7 @@ Part* createSpherePart(Point3D& pos, float size)
 }
 
 
-NxActor* createBox(NxVec3& pos, NxVec3& dimensions,bool dynamic)
+NxActor* createBox(const NxVec3& pos, const NxVec3& dimensions,bool dynamic)
 {
 	if(gScene == NULL || !gScene->isWritable()) return NULL;	
 	NxBodyDesc bodyDesc;
@@ -208,7 +210,7 @@ NxActor* createBox(NxVec3& pos, NxVec3& dimensions,bool dynamic)
 	return gScene->createActor(actorDesc);
 }
 
-Part* createBoxPart(Point3D& pos, Point3D& dimensions,bool dynamic)
+Part* createBoxPart(const Point3D& pos, const Point3D& dimensions,bool dynamic)
 {
 	Part* p=new Part(createBox(NxVec3(pos.x,pos.y,pos.z),NxVec3(dimensions.x,dimensions.y,dimensions.z),dynamic));
 	parts.push_back(p);
@@ -217,7 +219,7 @@ Part* createBoxPart(Point3D& pos, Point3D& dimensions,bool dynamic)
 
 
 
-NxActor* createCapsule(NxVec3& pos, float length/*=1*/, bool centered/*=true*/, float radius )
+NxActor* createCapsule(const NxVec3& pos, float length/*=1*/, bool centered/*=true*/, float radius )
 {
 	NxActorDesc actorDesc;
 	NxBodyDesc bodyDesc;
@@ -240,14 +242,14 @@ NxActor* createCapsule(NxVec3& pos, float length/*=1*/, bool centered/*=true*/, 
 }
 
 //remove point3d version soon
-Part* createCapsulePart(Point3D& pos, float length/*=1*/, bool centered/*=true*/, float radius)
+Part* createCapsulePart(const Point3D& pos, float length/*=1*/, bool centered/*=true*/, float radius)
 {
 	Part* p=new Part(createCapsule(NxVec3(pos.x,pos.y,pos.z),length,centered,radius));
 	parts.push_back(p);
 	return p;
 }
 
-Part* createCapsulePart(NxVec3& pos, float length/*=1*/, bool centered/*=true*/, float radius)
+Part* createCapsulePart1(NxVec3& pos, float length/*=1*/, bool centered/*=true*/, float radius)
 {
 	Part* p=new Part(createCapsule(pos,length,centered,radius));
 	parts.push_back(p);

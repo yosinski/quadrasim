@@ -23,7 +23,7 @@ class Shader
 public:
 	enum ShaderType{VERTEX,FRAGMENT};
 
-	Shader::Shader(ShaderSystem *shaderContext,const char *filename, const char *entryPoint,int shaderType);
+	Shader(ShaderSystem *shaderContext,const char *filename, const char *entryPoint,int shaderType);
 	void bind();
 	CGprogram getProgram(); //this is not so good, should avoid exposing to cg program
 	CGparameter getParameter(const char *name);

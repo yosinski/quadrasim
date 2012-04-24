@@ -31,9 +31,9 @@ void terminatePhysics();
 //NxActor* createCube(const Point3D& pos, float width=1, float depth=1, float height=1);
 //NxActor* createCapsule(const Point3D& pos, float length=1, bool centered=true,float radius=1);
 Part* createSpherePart(Point3D& pos, float size);
-Part* createBoxPart(Point3D& pos, Point3D& dimensions, bool dynamic=true);
-Part* createCapsulePart(Point3D& pos, float length=1, bool centered=true, float radius=1);
-Part* createCapsulePart(NxVec3& pos, float length=1, bool centered=true, float radius=1);
+Part* createBoxPart(const Point3D& pos, const Point3D& dimensions,bool dynamic=true);
+Part* createCapsulePart(const Point3D& pos, float length=1, bool centered=true, float radius=1);
+Part* createCapsulePart1(NxVec3& pos, float length=1, bool centered=true, float radius=1);
 
 //NxRevoluteJoint* createRevoluteJoint(NxActor* a0, NxActor* a1, NxVec3 globalAnchor, NxVec3 globalAxis);
 NxRevoluteJoint* createRevoluteJoint(NxActor* a0, NxActor* a1, NxVec3 globalAnchor, NxVec3 globalAxis,float limLowRad=0,float limHighRad=0,float spring=0,float damper=0);

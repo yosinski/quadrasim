@@ -8,7 +8,7 @@
 #include <Cg/cgGL.h>
 #include <math.h>
 #include <stdio.h>
-#include <crtdbg.h>
+#include <assert.h>
 
 
 
@@ -22,8 +22,8 @@ void CapsuleGraphicsObject::initVertices(int steps)
 	int nFaces=2*steps;
 	verts=new Vec3[nFaces*3];
 	normals=new Vec3[nFaces*3];
-	_ASSERTE(verts);
-	_ASSERTE(normals);
+	assert(verts);
+	assert(normals);
 	nVerts=nFaces*3;
 	printf("cylinder: %d steps, %d faces created\n",steps,nFaces);
 
@@ -121,7 +121,7 @@ CapsuleGraphicsObject::CapsuleGraphicsObject( float radius, float length )
 	this->radius=radius;
 	this->length=length;
 	sphere = new SphereGraphicsObject(radius);
-	_ASSERTE(sphere);
+	assert(sphere);
 }
 
 

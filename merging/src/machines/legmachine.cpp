@@ -10,6 +10,11 @@
 #include "../graphics/graphics.h"
 #include "../base/system.h"
 #include "muscle.h"
+#include <algorithm>
+#include <limits>
+#include <iostream>
+#include <math.h>
+#include <float.h>
 #define cout STD_COUT
 
 Part* LegMachine::getCentralPart()
@@ -37,7 +42,7 @@ float LegMachine::createSingleLeg(Part* platform,Part** legParts,NxVec3 localAtt
 	NxVec3 globalAttachPoint;
 	float topLegTop=platY-platDims.y-jointSpacingTop;
 	attachTo->getGlobalPose().multiply(localAttachPoint,globalAttachPoint);
-	Part* topLeg=createCapsulePart(Point3D(0,topLegTop,globalAttachPoint.z),topLen*2,true,m_legWidth);
+	Part* topLeg=createCapsulePart(Point3D(0,topLegTop,globalAttachPoint.z), topLen*2, true, m_legWidth);
 	NxActor* topAct=topLeg->act;
 	topAct->getShapes()[0]->setLocalPosition(NxVec3(0,-topLen-m_legWidth,0));  //offset center
 	NxMat33 rot;
@@ -49,7 +54,7 @@ float LegMachine::createSingleLeg(Part* platform,Part** legParts,NxVec3 localAtt
 	NxVec3 botTrans(0,-topLen*2-m_legWidth*2-jointSpacingBot-m_legWidth,0); //translation relative to top leg top
 	NxVec3 globalBotLegCenter;
 	topAct->getGlobalPose().multiply(botTrans,globalBotLegCenter);
-	Part* botLeg=createCapsulePart(globalBotLegCenter,botLen*2,true,m_legWidth);
+	Part* botLeg=createCapsulePart1(globalBotLegCenter,botLen*2,true,m_legWidth);
 	NxActor* botAct=botLeg->act;
 	botAct->getShapes()[0]->setLocalPosition(NxVec3(0,-botOffsetLen,0));  //offset center
 	rot.rotZ(botRot);
@@ -284,7 +289,7 @@ void LegMachine::update(float simulationTime)
 	float t0=0;
 	float t1=m_params.getValue("attackTop");
 	float t2=t1+m_params.getValue("pauseTop");
-	float t3=__min(t2+m_params.getValue("decayTop"),0.99f);
+	float t3=std::min(t2+m_params.getValue("decayTop"),0.99f);
 	
 
 	t+=t1/2.0f; //want to start with muscles in neutral position
@@ -305,7 +310,7 @@ void LegMachine::update(float simulationTime)
 	t0=0;
 	t1=m_params.getValue("attackBot");
 	t2=t1+m_params.getValue("pauseBot");
-	t3=__min(t2+m_params.getValue("decayBot"),0.99f);
+	t3=std::min(t2+m_params.getValue("decayBot"),0.99f);
 	remainder=fmod(t+phaseBelowKnee,1.0f);
 	pressure=sineEnvelope(remainder,t0,t1,t2,t3);
 	if(muscles[2]) muscles[2]->setPull(pressure);
@@ -464,7 +469,7 @@ float calculateLegFitness(GAGenome& g)
 	//NxVec3 diff=machine.topPart->physicsEquivalent->getGlobalPose().t-firstPos;
 	terminatePhysics();
 	int framesElapsed=f;
-	float fitnessValue=(float)__max(distSum,0);
+	float fitnessValue= fmax(distSum,0);
 	//float fitnessValue=fabs((float)distSum);
 
 

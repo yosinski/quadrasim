@@ -4,6 +4,7 @@
 #include "quadrobot.h"
 #include "../base/system.h"
 #include "../base/tools.h"
+#include <math.h>
 
 //move to tools later
 //add arbitrary src range
@@ -147,7 +148,7 @@ float Quadrobot::calcSinEnvelopeFromParams(float attackDuration,float p0Duration
 	float t1=attackDuration;
 	float t2=t1+p0Duration;
 	float t3=t2+decayDuration;
-	t=__max(t-phase,0); //subtract phase but wait in the beginning so no abrupt movements
+	t=fmax(t-phase,0); //subtract phase but wait in the beginning so no abrupt movements
 	t+=t1/2.0f; //want to start with muscles in neutral position
 
 	float remainder=fmod(t,1.0f);

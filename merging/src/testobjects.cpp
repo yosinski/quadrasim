@@ -13,6 +13,8 @@
 #include "machines/x2crawler.h"
 #include "machines/quadromachine.h"
 #include "hardware/quadrohardware.h"
+#include <iostream>
+#include <boost/foreach.hpp>
 
 //testing:
 //#include "hardware/axservo.h"
@@ -42,7 +44,7 @@ void cleanUpTestObjects()
 		delete quadroHW;
 	quadroHW=NULL;
 
-	for each(Machine* m in machines)
+	BOOST_FOREACH(Machine* m, machines)
 		delete m;
 	machines.clear();
 }
@@ -59,7 +61,7 @@ void updateTestObjects()
 
 	//update all existing machines
 	//also freeze this?? check
-	for each(Machine* m in machines) {
+	BOOST_FOREACH(Machine* m, machines) {
 		//m->update(frameCount/60.0f);
 		m->update(frameCount*simTimeStep);
 	}
@@ -77,7 +79,7 @@ void setupTestObjectScene()
 {
 	cleanUpTestObjects();
 	terminatePhysics();
-	initPhysics(); //hvor mye av dette må gjøres for reset??
+	initPhysics(); //hvor mye av dette mï¿½ gjï¿½res for reset??
 	frameCount=0;
 }
 
@@ -133,7 +135,7 @@ void testObjectLoop()
 				QuadroMachine* m=new QuadroMachine(p);
 				if(quadroHW) quadroHW->init(p);
 				if(glfwGetKey(GLFW_KEY_RALT)) {
-					char* playbackFileName="example_log_1.txt";
+					const char* playbackFileName="example_log_1.txt";
 					m->loadPlaybackFile(playbackFileName);
 					//m->loadPlaybackFile("fixed_positions.txt");
 					if(quadroHW)

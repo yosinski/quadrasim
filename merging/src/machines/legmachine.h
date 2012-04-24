@@ -13,7 +13,7 @@
 
 struct LegParams : public FloatParamList
 {
-	LegParams::LegParams() { //this is the only unique part
+	LegParams() { //this is the only unique part
 
 		paramList["platLen"]=FloatParam(6,4,8,5);
 		paramList["topLegLen"]=FloatParam(5,3,6,6);
@@ -35,9 +35,9 @@ struct LegParams : public FloatParamList
 		paramList["muscleAttachPointBotLegFront"]=FloatParam(0.7f,0.2f,1.0f,6);
 
 		//control - general
-		paramList["freq"]=FloatParam(0.5f,0.48f,0.52f,6);   //høy hastighet blir ustabilt?
-		//paramList["freq"]=FloatParam(0.1f,0.08f,0.12f,6);   //høy hastighet blir ustabilt?
-		paramList["phaseOtherLeg"]=FloatParam(0.5f,0.45f,0.55f,6);    //fase mellom venstre og høyre side
+		paramList["freq"]=FloatParam(0.5f,0.48f,0.52f,6);   //hï¿½y hastighet blir ustabilt?
+		//paramList["freq"]=FloatParam(0.1f,0.08f,0.12f,6);   //hï¿½y hastighet blir ustabilt?
+		paramList["phaseOtherLeg"]=FloatParam(0.5f,0.45f,0.55f,6);    //fase mellom venstre og hï¿½yre side
 		//control for upper joint
 		paramList["attackTop"]=FloatParam(0.49f,0.2f,0.6f,6); //attack time in envelope
 		paramList["pauseTop"]=FloatParam(0.01f,0.0f,0.3f,6); //how long to stay in '1' 

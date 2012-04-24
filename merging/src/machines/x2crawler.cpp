@@ -4,6 +4,8 @@
 #include "../physics.h"
 #include "../base/system.h"
 #include "../graphics/graphics.h"
+#include <math.h>
+#include <boost/foreach.hpp>
 
 Part* X2Crawler::create3Axis(Part* attachTo,NxMat34 tfm,int &jointNo)
 {
@@ -11,31 +13,41 @@ Part* X2Crawler::create3Axis(Part* attachTo,NxMat34 tfm,int &jointNo)
 	Part* curPart=NULL;
 
 	lastPart=createCylinderCore(lastPart->act,tfm,true); //core 1
-	createLid(lastPart->act,createTfm(0,0,-m_lidOffset,0,PI/2,0),true); //lid core 1
-	createLid(lastPart->act,createTfm(0,0,m_lidOffset,0,-PI/2,0),true); //lid core 1
-	createEncoderBox(lastPart->act,createTfm(m_encBoxOffset,0,0,PI,0,0),true); //encoder box core 1
+	NxMat34 tmp1 = createTfm(0,0,-m_lidOffset,0,PI/2,0);
+	createLid(lastPart->act,tmp1,true); //lid core 1
+	NxMat34 tmp2 = createTfm(0,0,m_lidOffset,0,-PI/2,0);
+	createLid(lastPart->act,tmp2,true); //lid core 1
+	NxMat34 tmp3 = createTfm(m_encBoxOffset,0,0,PI,0,0);
+	createEncoderBox(lastPart->act,tmp3,true); //encoder box core 1
 
 	/*curPart=createCylinderCore(lastPart->act,createTfm(0,m_coreOffset,0,PI/2,0,getInitAngle(jointNo)),false); //core 2
 	createParamMotorJoint(lastPart,NxVec3(0,1,0),curPart,jointNo++);
 	lastPart=curPart;*/
-	lastPart=createCylinderCore(lastPart->act,createTfm(0,m_coreOffset,0,PI/2,0,0),true); //core 2	createLid(lastPart->act,createTfm(0,0,-m_lidOffset,0,PI/2,0),true); //lid core 2
-	createEncoderBox(lastPart->act,createTfm(m_encBoxOffset,0,0,PI,0,0),true); //encoder box core 2
+	NxMat34 tmp4 = createTfm(0,m_coreOffset,0,PI/2,0,0);
+	lastPart=createCylinderCore(lastPart->act,tmp4,true); //core 2	createLid(lastPart->act,createTfm(0,0,-m_lidOffset,0,PI/2,0),true); //lid core 2
+	NxMat34 tmp5 = createTfm(m_encBoxOffset,0,0,PI,0,0);
+	createEncoderBox(lastPart->act,tmp5,true); //encoder box core 2
 
 	//curPart=createArm(lastPart->act,createTfm(0,0,0,-PI/2,0,getInitAngle(jointNo)),false); //arm
-	curPart=createArm(lastPart->act,createTfm(0,0,0,-PI/2,0,getInitAngle(jointNo)),false,m_armLength); //arm
+	NxMat34 tmp6 = createTfm(0,0,0,-PI/2,0,getInitAngle(jointNo));
+	curPart=createArm(lastPart->act,tmp6,false,m_armLength); //arm
 	createParamMotorJoint(lastPart,NxVec3(0,1,0),curPart,jointNo++);
 	lastPart=curPart;
 
 	//curPart=createCylinderCore(lastPart->act,createTfm(0,23.5f,0,PI/2,getInitAngle(jointNo),0),false); //core 3
-	curPart=createCylinderCore(lastPart->act,createTfm(0,m_armLength*2,0,PI/2,getInitAngle(jointNo),0),false); //core 3
+	NxMat34 tmp7 = createTfm(0,m_armLength*2,0,PI/2,getInitAngle(jointNo),0);
+	curPart=createCylinderCore(lastPart->act,tmp7,false); //core 3
 	createParamMotorJoint(curPart,NxVec3(0,-1,0),lastPart,jointNo++);
 	lastPart=curPart;
-	createLid(lastPart->act,createTfm(0,0,m_lidOffset,0,-PI/2,0),true); //lid core 3
-	createEncoderBox(lastPart->act,createTfm(m_encBoxOffset,0,0,PI,0,0),true); //encoder box core 3
+	NxMat34 tmp8 = createTfm(0,0,m_lidOffset,0,-PI/2,0);
+	createLid(lastPart->act,tmp8,true); //lid core 3
+	NxMat34 tmp9 = createTfm(m_encBoxOffset,0,0,PI,0,0);
+	createEncoderBox(lastPart->act,tmp9,true); //encoder box core 3
 
 	//lastPart=createTip(lastPart->act,createTfm(0,0,-8,-PI/2,0,0),true); //tip
 	//float tipLength=m_params->getValue("tipLength");
-	lastPart=createTip(lastPart->act,createTfm(0,0,-8,-PI/2,0,0),true,m_tipLength); //tip
+	NxMat34 tmp10 = createTfm(0,0,-8,-PI/2,0,0);
+	lastPart=createTip(lastPart->act,tmp10,true,m_tipLength); //tip
 
 	return lastPart;
 }
@@ -76,17 +88,20 @@ X2Crawler::X2Crawler(X2CrawlerParams* params/* =NULL */,bool applyLegLength)
 	}
 
 
-
-	Part* coreRight=createCylinderCore(NULL,createTfm(0,height+m_coreOffset/2,0,0,0,0),false);
+	NxMat34 tmp11 = createTfm(0,height+m_coreOffset/2,0,0,0,0);
+	Part* coreRight=createCylinderCore(NULL,tmp11,false);
 	create3Axis(coreRight,createTfm(0,0,m_coreOffset,0,PI,PI/2),jointNo);
 
-	lastPart=createCylinderCore(coreRight->act,createTfm(-m_coreOffset,0,0,0,0,0),true);
+	NxMat34 tmp12 = createTfm(-m_coreOffset,0,0,0,0,0);
+	lastPart=createCylinderCore(coreRight->act,tmp12,true);
 	create3Axis(lastPart,createTfm(0,0,m_coreOffset,0,0,PI/2),jointNo);
 
-	Part* coreLeft=createCylinderCore(coreRight->act,createTfm(0,0,-m_coreOffset,0,0,0),true);
+	NxMat34 tmp13 = createTfm(0,0,-m_coreOffset,0,0,0);
+	Part* coreLeft=createCylinderCore(coreRight->act,tmp13,true);
 	create3Axis(coreLeft,createTfm(0,0,-m_coreOffset,0,PI,PI/2),jointNo);
 
-	lastPart=createCylinderCore(coreLeft->act,createTfm(-m_coreOffset,0,0,0,0,0),true);
+	NxMat34 tmp14 = createTfm(-m_coreOffset,0,0,0,0,0);
+	lastPart=createCylinderCore(coreLeft->act,tmp14,true);
 	create3Axis(lastPart,createTfm(0,0,-m_coreOffset,0,0,PI/2),jointNo);
 
 	coreRight->addTouchSensor(NxVec3(0,m_coreOffset*0.8f,0),&m_touchSensors[0],sensorSz);
@@ -97,7 +112,7 @@ X2Crawler::X2Crawler(X2CrawlerParams* params/* =NULL */,bool applyLegLength)
 
 	//increase stability
 	int solverIterations=40; //4 is default
-	for each(Part* part in m_robParts) //not portable
+	BOOST_FOREACH(Part* part, m_robParts) //not portable
 		part->act->setSolverIterationCount(solverIterations);
 
 }
@@ -185,7 +200,7 @@ float calculateX2CrawlerFitness(GAGenome& g)
 	terminatePhysics();
 	//int framesElapsed=f;
 	//float fitnessValue=(float)__max(diff.magnitude(),0); //allows any direction of final movement, not only "forward"
-	float fitnessValue=(float)__max(diff.dot(NxVec3(1,0,0)),0); //only forward
+	float fitnessValue=fmax(diff.dot(NxVec3(1,0,0)),0); //only forward
 	fitnessValue=fitnessValue*60.0f/runFrames;
 
 	if(cheat) {

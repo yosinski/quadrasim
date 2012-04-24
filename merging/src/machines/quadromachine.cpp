@@ -11,6 +11,7 @@
 #include "../graphics/MeshGraphicsObject.h"
 #include "../base/system.h"
 #include "../graphics/graphics.h"
+#include <boost/foreach.hpp>
 
 #define PRINT_STATS 1 //for printing controller and position stats
 #define PRINT_INTERVAL 0.1 //seconds between each log line
@@ -210,7 +211,8 @@ Part* QuadroMachine::createLeg(NxActor* attachTo, NxMat34& transform, bool glue)
 	lastPart=curPart;
 
 	//lower leg and joint to upper leg
-	curPart=createLowerLeg(lastPart->act,createTfm(SC*-0.4f,SC*10,SC*0,0,0,0),false);
+	NxMat34 temp = createTfm(SC*-0.4f,SC*10,SC*0,0,0,0);
+	curPart=createLowerLeg(lastPart->act,temp,false);
 	createMotorJoint(curPart->act,NxVec3(0,0,1),lastPart->act,m_outerAngleMin,m_outerAngleMax);
 	return lastPart;
 }
@@ -228,17 +230,23 @@ QuadroMachine::QuadroMachine(QuadroParams* params/* =NULL */)
 
 	//trodde noen av joints var feil retning pga. flippede akser mm i debug render
 	//alt ok etter manuell testing. kan hende lokale akser byttes men fungerer allikevel.
-	//core joint [orientering min/maks] bør sjekkes mot hvordan roboten er satt opp.
+	//core joint [orientering min/maks] bï¿½r sjekkes mot hvordan roboten er satt opp.
 
 	//New order, pc and battery parts were wrong wrt. leg order
-	Part* batteryPart=lastPart=createBatteryCore(NULL,createTfm(0,SC*40,0,0,0,PI/2),false); 
-	createLeg(lastPart->act,createTfm(SC*-5.5f,SC*7,SC*6.4f,PI/4,PI,0),false);
-	createLeg(lastPart->act,createTfm(SC*-5.5f,SC*-7,SC*6.4f,3*PI/4,PI,0),false);
+	NxMat34 temp1 = createTfm(0,SC*40,0,0,0,PI/2);
+	Part* batteryPart=lastPart=createBatteryCore(NULL,temp1,false);
+	NxMat34 temp6 = createTfm(SC*-5.5f,SC*7,SC*6.4f,PI/4,PI,0);
+	createLeg(lastPart->act,temp6,false);
+	NxMat34 temp2 = createTfm(SC*-5.5f,SC*-7,SC*6.4f,3*PI/4,PI,0);
+	createLeg(lastPart->act,temp2,false);
 	//other side with legs
-	Part* pcPart=curPart=createPCCore(lastPart->act,createTfm(0,0,0,PI,0,0),false);
+	NxMat34 temp3 = createTfm(0,0,0,PI,0,0);
+	Part* pcPart=curPart=createPCCore(lastPart->act,temp3,false);
 	lastPart=curPart;
-	createLeg(lastPart->act,createTfm(SC*-5.5f,SC*7,SC*6.4f,PI/4,PI,0),false);
-	createLeg(lastPart->act,createTfm(SC*-5.5f,SC*-7,SC*6.4f,3*PI/4,PI,0),false);
+	NxMat34 temp4 = createTfm(SC*-5.5f,SC*7,SC*6.4f,PI/4,PI,0);
+	createLeg(lastPart->act,temp4,false);
+	NxMat34 temp5 = createTfm(SC*-5.5f,SC*-7,SC*6.4f,3*PI/4,PI,0);
+	createLeg(lastPart->act,temp5,false);
 	//add joint between pc and battery
 	createMotorJoint(pcPart->act,NxVec3(0,0,1),batteryPart->act,m_coreAngleMin,m_coreAngleMax);
 
@@ -246,7 +254,7 @@ QuadroMachine::QuadroMachine(QuadroParams* params/* =NULL */)
 	//can increase solver accuracy here
 	//int solverIterations=100; //4 is default
 	int solverIterations=200; //4 is default
-	for each(Part* part in m_robParts) //syntax not portable
+	BOOST_FOREACH(Part* part, m_robParts) //syntax not portable
 		part->act->setSolverIterationCount(solverIterations);
 
 
@@ -287,7 +295,7 @@ void QuadroMachine::update(float simulationTime)
 	if(logSim && simLogFile) fprintf(simLogFile,"%.3f ",simulationTime); 
 
 	unsigned i=0;
-	for each(NxRevoluteJoint* j in m_robJoints) {
+	BOOST_FOREACH(NxRevoluteJoint* j, m_robJoints) {
 		float angularPos=m_jointTargets[i];
 
 		//check limits here or elsewhere?
@@ -389,7 +397,7 @@ void QuadroMachine::controlRevoluteMotorP(NxRevoluteJoint* joint, float targetAn
 	float curAngle=joint->getAngle();
 	float deltaAngle=targetAngle-curAngle;
 	float desiredSpeed=deltaAngle*p;
-	desiredSpeed=__min(__max(-maxSpeed,desiredSpeed),maxSpeed); //clamping
+	desiredSpeed=fmin(fmax(-maxSpeed,desiredSpeed),maxSpeed); //clamping
 
 	NxMotorDesc motor;
 	joint->getMotor(motor);
@@ -400,7 +408,7 @@ void QuadroMachine::controlRevoluteMotorP(NxRevoluteJoint* joint, float targetAn
 
 void QuadroMachine::enableSimLogging(bool enable)
 {
-	//later: add option for logging on specific frames - auto-swith off ?
+	//later: add option for logging on specific frames - auto-switch off ?
 	std::string logFileName="log_sim.txt";
 	logSim=enable;
 	if(simLogFile==NULL) {
@@ -479,7 +487,7 @@ float calculateQuadroFitness(GAGenome& g)
 
 	NxVec3 diff=machine.getPosition()-firstPos;
 	terminatePhysics();
-	float fitnessValue=(float)__max(diff.magnitude(),0); //allows any direction of final movement, not only "forward"
+	float fitnessValue=fmax(diff.magnitude(),0); //allows any direction of final movement, not only "forward"
 	//float fitnessValue=(float)__max(diff.dot(NxVec3(1,0,0)),0); //only forward
 	//fitnessValue=fitnessValue/runFrames/QUADRO_TIMESTEP;
 	fitnessValue=fitnessValue/evalDuration; //should give cm/s

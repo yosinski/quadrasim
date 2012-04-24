@@ -8,7 +8,7 @@
 //crawler with more legs or similar
 struct X2CrawlerParams : public FloatParamMultiValList
 {
-	X2CrawlerParams::X2CrawlerParams() {
+	X2CrawlerParams() {
 
 		//deduce initAngle and limitAmp from limLow and limHigh, easier for control system
 		//but keep limlow/high as parameters because easiest to specify joint min/max

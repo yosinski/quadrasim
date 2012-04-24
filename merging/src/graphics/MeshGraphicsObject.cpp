@@ -13,6 +13,8 @@
 #include <vector>
 #include <float.h>
 #include <stdio.h>
+#include <string.h>
+#include <string>
 
 
 void MeshGraphicsObject::getExtents(Vec3& minVect, Vec3& maxVect)

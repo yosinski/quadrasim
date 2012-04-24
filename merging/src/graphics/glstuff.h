@@ -9,8 +9,8 @@
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h> //removes the warnings
+//#define WIN32_LEAN_AND_MEAN
+//#include <windows.h> //removes the warnings
 
 
 #include <GL/glew.h>

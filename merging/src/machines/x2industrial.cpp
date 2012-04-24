@@ -4,7 +4,8 @@
 #include "../physics.h"
 #include "../base/system.h"
 #include "../graphics/graphics.h"
-
+#include <math.h>
+#include <boost/foreach.hpp>
 
 X2Industrial::X2Industrial(X2IndustrialParams* params/* =NULL */)
 {
@@ -19,38 +20,53 @@ X2Industrial::X2Industrial(X2IndustrialParams* params/* =NULL */)
 	Part* curPart=NULL;
 	int jointNo=0;
 
-	lastPart=createPlatform(NULL,createTfm(0,0,0),false); //platform (true fixes to ground)
-	lastPart=createBase(lastPart->act,createTfm(0,2.5f,0),true); //base
+	NxMat34 t1 = createTfm(0,0,0);
+	lastPart=createPlatform(NULL,t1,false); //platform (true fixes to ground)
+	NxMat34 t2 = createTfm(0,2.5f,0);
+	lastPart=createBase(lastPart->act,t2,true); //base
 
-	lastPart=createCylinderCore(lastPart->act,createTfm(0,11.3f,0),true); //core 1
-	createLid(lastPart->act,createTfm(0,0,-m_lidOffset,0,PI/2,0),true); //lid core 1
-	createLid(lastPart->act,createTfm(0,0,m_lidOffset,0,-PI/2,0),true); //lid core 1
-	createEncoderBox(lastPart->act,createTfm(m_encBoxOffset,0,0,PI,0,0),true); //encoder box core 1
+	NxMat34 t3 = createTfm(0,11.3f,0);
+	lastPart=createCylinderCore(lastPart->act,t3,true); //core 1
+	NxMat34 t4 = createTfm(0,0,-m_lidOffset,0,PI/2,0);
+	createLid(lastPart->act,t4,true); //lid core 1
+	NxMat34 t5 = createTfm(0,0,m_lidOffset,0,-PI/2,0);
+	createLid(lastPart->act,t5,true); //lid core 1
+	NxMat34 t6 = createTfm(m_encBoxOffset,0,0,PI,0,0);
+	createEncoderBox(lastPart->act,t6,true); //encoder box core 1
 
 	//core 2 (now: fixed joint)
 	//curPart=createCylinderCore(lastPart->act,createTfm(0,coreOffset,0,PI/2,0,getInitAngle(jointNo)));
-	curPart=createCylinderCore(lastPart->act,createTfm(0,m_coreOffset,0,PI/2,0,0),true); //false if motor
+	NxMat34 t7 = createTfm(0,m_coreOffset,0,PI/2,0,0);
+	curPart=createCylinderCore(lastPart->act,t7,true); //false if motor
 	//joint=createParamMotorJoint(lastPart,NxVec3(0,1,0),curPart,jointNo++);
 	lastPart=curPart;
-	createLid(lastPart->act,createTfm(0,0,-m_lidOffset,0,PI/2,0),true); //lid core 2
-	createEncoderBox(lastPart->act,createTfm(m_encBoxOffset,0,0,PI,0,0),true); //encoder box core 2
+	NxMat34 t8 = createTfm(0,0,-m_lidOffset,0,PI/2,0);
+	createLid(lastPart->act,t8,true); //lid core 2
+	NxMat34 t9 = createTfm(m_encBoxOffset,0,0,PI,0,0);
+	createEncoderBox(lastPart->act,t9,true); //encoder box core 2
 
-	curPart=createArm(lastPart->act,createTfm(0,0,0,-PI/2,0,getInitAngle(jointNo)),false); //arm
+	NxMat34 t10 = createTfm(0,0,0,-PI/2,0,getInitAngle(jointNo));
+	curPart=createArm(lastPart->act,t10,false); //arm
 	createParamMotorJoint(lastPart,NxVec3(0,1,0),curPart,jointNo++);
 	lastPart=curPart;
 
-	curPart=createCylinderCore(lastPart->act,createTfm(0,23.5f,0,PI/2,getInitAngle(jointNo),0),false); //core 3
+	NxMat34 t11 = createTfm(0,23.5f,0,PI/2,getInitAngle(jointNo),0);
+	curPart=createCylinderCore(lastPart->act,t11,false); //core 3
 	createParamMotorJoint(curPart,NxVec3(0,-1,0),lastPart,jointNo++);
 	lastPart=curPart;
-	createLid(lastPart->act,createTfm(0,0,m_lidOffset,0,-PI/2,0),true); //lid core 3
-	createEncoderBox(lastPart->act,createTfm(m_encBoxOffset,0,0,PI,0,0),true); //encoder box core 3
 
-	lastPart=createGripTip(lastPart->act,createTfm(0,0,-8,-PI/2,0,0),true); //tip
+	NxMat34 t12 = createTfm(0,0,m_lidOffset,0,-PI/2,0);
+	createLid(lastPart->act,t12,true); //lid core 3
+	NxMat34 t13 = createTfm(m_encBoxOffset,0,0,PI,0,0);
+	createEncoderBox(lastPart->act,t13,true); //encoder box core 3
+
+	NxMat34 t14 = createTfm(0,0,-8,-PI/2,0,0);
+	lastPart=createGripTip(lastPart->act,t14,true); //tip
 
 
 	//hack to increase stability
 	int solverIterations=20; //4 is default
-	for each(Part* part in m_robParts) //not portable
+	BOOST_FOREACH(Part* part, m_robParts) //not portable
 		part->act->setSolverIterationCount(solverIterations);
 
 }
@@ -121,7 +137,7 @@ float calculateX2IndustrialFitness(GAGenome& g)
 	terminatePhysics();
 	//int framesElapsed=f;
 	//float fitnessValue=(float)__max(diff.magnitude(),0); //allows any direction of final movement, not only "forward"
-	float fitnessValue=(float)__max(diff.dot(NxVec3(1,0,0)),0); //only forward
+	float fitnessValue=fmax(diff.dot(NxVec3(1,0,0)),0); //only forward
 	fitnessValue=fitnessValue*60.0f/runFrames;
 
 	if(cheat) {

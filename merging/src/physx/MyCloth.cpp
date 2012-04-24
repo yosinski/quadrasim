@@ -1,4 +1,4 @@
-//from nvidia ex.
+//from nvidia example
 //modified!
 //does not support tearing anymore
 
@@ -101,7 +101,7 @@ bool MyCloth::generateObjMeshDesc(NxClothMeshDesc &desc, char *filename, NxReal 
 	desc.vertexFlags				= 0;
 	desc.flags						= NX_CLOTH_MESH_WELD_VERTICES;
 	desc.weldingDistance			= 0.0001f;
-	desc.numHierarchyLevels         = 3; //no idea what is best here
+	//desc.numHierarchyLevels         = 3; //no idea what is best here
 
 	mMaxVertices = wo.mVertexCount;
 	mMaxIndices  = 3 * wo.mTriCount;

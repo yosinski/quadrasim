@@ -1,6 +1,6 @@
 #include "../base/system.h"
 #include "axservo.h"
-#include "dynamixel.h"
+#include "../hardware/dynamixel.h"
 #include <stdio.h>
 
 // Control table address
@@ -16,15 +16,18 @@
 #define P_MOVING				46
 
 
+int deviceIndex = 1;
+int baudnum = 1;
+
 bool DynamixelDevice::init(int baudSetting)
 {
-	if( dxl_initialize() == 0 ) {
-		printf("could not init usb2dynamixel\n");
+	if( dxl_initialize(deviceIndex,baudnum ) == 0 ) {
+		printf("could not initialize usb2dynamixel\n");
 		return false;
 	}
 	printf( "usb2dynamixel initialized\n" );
 
-	dxl_set_baud(baudSetting); 
+	dxl_set_baud( baudSetting );
 
 	for(int i=0;i<BROADCAST_ID;i++) {
 		dxl_ping(i);

@@ -32,9 +32,18 @@ int main(void)
 	initRendering();
 	
 	setupTestObjectScene();
-	testObjectLoop();
+    //*
+    QuadroEvolutionHarness quadroEvo(42);
+    quadroEvo.evolve(false);
+    quadroEvo.printStatistics();
+    /*/
+    testObjectLoop();
+
+    //quadroLoop(cmdLineArgs.inFileName,cmdLineArgs.outFileName,cmdLineArgs.loopPlayback);
+    //*/
 
 	terminateGraphics();
 	glfwTerminate();
 	terminatePhysics();
 }
+

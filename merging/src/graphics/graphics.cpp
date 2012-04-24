@@ -1,6 +1,5 @@
 #define GLFW_DLL
 
-#include <crtdbg.h>
 #include "../base/system.h"
 #include "../base/tools.h"
 #include "../base/kmath.h"
@@ -14,7 +13,7 @@
 #include "glstuff.h"
 #include <stdlib.h>
 #include "../physics.h"
-#include "jpeglib.h"
+#include <jpeglib.h>
 
 void drawScene(bool follow=false,bool drawGround=true);
 

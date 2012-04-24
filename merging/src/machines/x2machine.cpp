@@ -11,6 +11,8 @@
 #include "../graphics/MeshGraphicsObject.h"
 #include "../base/system.h"
 #include "../graphics/graphics.h"
+#include <boost/foreach.hpp>
+#include <math.h>
 
 //these are class static to speed up loading time
 MeshGraphicsObject* X2Machine::m_outerRing=NULL;
@@ -455,7 +457,7 @@ void controlMotor(NxRevoluteJoint* joint, float targetAngle)
 	float curAngle=joint->getAngle();
 	float deltaAngle=targetAngle-curAngle;
 	float desiredSpeed=deltaAngle*p;
-	desiredSpeed=__min(__max(-maxSpeed,desiredSpeed),maxSpeed); //clamping
+	desiredSpeed=fmin(fmax(-maxSpeed,desiredSpeed),maxSpeed); //clamping
 
 	NxMotorDesc motor;
 	joint->getMotor(motor);
@@ -528,7 +530,7 @@ void X2Machine::update(float simulationTime)
 	}
 
 	int i=0;
-	for each(NxRevoluteJoint* j in m_robJoints) {
+	BOOST_FOREACH(NxRevoluteJoint* j, m_robJoints) {
 		//NxSpringDesc sd;
 		//j->getSpring(sd);
 		NxJointLimitPairDesc lim;
@@ -554,7 +556,7 @@ void X2Machine::update(float simulationTime)
 		float t2=t1+p0Time;
 		float t3=t2+decayTime;
 		float t=freq*simulationTime;
-		t=__max(t-phase,0); //subtract phase but wait in the beginning so no abrupt movements
+		t=fmax(t-phase,0); //subtract phase but wait in the beginning so no abrupt movements
 		t+=t1/2.0f; //want to start with muscles in neutral position
 
 		float remainder=fmod(t,1.0f);
