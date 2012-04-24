@@ -5,6 +5,8 @@
 #include "base/system.h"
 #include "graphics/glstuff.h"
 #include "machines/machine.h"
+#include <iostream>
+#include <boost/foreach.hpp>
 
 //various machines for testing
 #include "machines/quadromachine.h"
@@ -34,7 +36,7 @@ void cleanUpTestObjects()
 		delete quadroHW;
 	quadroHW=NULL;
 
-	for each(Machine* m in machines)
+	BOOST_FOREACH(Machine* m, machines)
 		delete m;
 	machines.clear();
 }
@@ -51,7 +53,7 @@ void updateTestObjects()
 
 	//update all existing machines
 	//also freeze this?? check
-	for each(Machine* m in machines) {
+	BOOST_FOREACH(Machine* m, machines) {
 		//m->update(frameCount/60.0f);
 		m->update(frameCount*simTimeStep);
 	}

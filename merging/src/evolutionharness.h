@@ -21,7 +21,7 @@ public:
 	~EvolutionHarness();
 
 	virtual void evolve(bool continueFromFile=false);
-	virtual void printStatistics(char *fileName="bestind.txt");
+	virtual void printStatistics(char *fileName="log_bestind.txt");
 	bool isRunning() { return !stopEvolution; }
 	virtual void stop() { stopEvolution=true; }
 	virtual void updateGraphicsAndPhysics(bool freeze=false);

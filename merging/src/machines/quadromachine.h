@@ -25,7 +25,8 @@ public:
 	void update(float simulationTime);
 	NxVec3 getPosition(void);
 	Part* getCentralPart(void);
-	void enableSimLogging(bool enable);
+	void enableSimLogging(bool);
+	void enableSimLogging(bool, const std::string);
 
 
 protected:

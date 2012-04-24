@@ -36,6 +36,6 @@ F12 - freeze simulation (but not camera)
 
 u - load quadratot robot
 lctrl + u load robot with log_bestind.txt which is the current best result from evolution
-ralt + u load robot with cmd_fixed_positons.txt and plays back position keys with linear interpolation
+ralt + u load robot with cmd_fixed_positions.txt and plays back position keys with linear interpolation
 
 		

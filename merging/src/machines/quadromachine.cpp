@@ -23,7 +23,7 @@ MeshGraphicsObject* QuadroMachine::m_upperLegMesh=NULL;
 MeshGraphicsObject* QuadroMachine::m_lowerLegMesh=NULL;
 
 #define SC 1.0f //scale of robot dimensions - originally in cm, sc==0.01 -> physics units are [m]
-//nå går den litt gjennom bakken hvis den er for liten - er nødt til å stille inn noe i grafikk (depth buffer)?
+//n� g�r den litt gjennom bakken hvis den er for liten - er n�dt til � stille inn noe i grafikk (depth buffer)?
 
 //shape constants
 float hingeXOffs=-5.2f*SC;
@@ -212,7 +212,7 @@ Part* QuadroMachine::createLeg(NxActor* attachTo, NxMat34& transform, bool glue)
 
 	//lower leg and joint to upper leg
 	NxMat34 temp = createTfm(SC*-0.4f,SC*10,SC*0,0,0,0);
-	curPart=createLowerLeg(lastPart->act,temp,false);
+ 	curPart=createLowerLeg(lastPart->act,temp,false);
 	createMotorJoint(curPart->act,NxVec3(0,0,1),lastPart->act,m_outerAngleMin,m_outerAngleMax);
 	return lastPart;
 }
@@ -230,11 +230,13 @@ QuadroMachine::QuadroMachine(QuadroParams* params/* =NULL */)
 
 	//trodde noen av joints var feil retning pga. flippede akser mm i debug render
 	//alt ok etter manuell testing. kan hende lokale akser byttes men fungerer allikevel.
-	//core joint [orientering min/maks] bï¿½r sjekkes mot hvordan roboten er satt opp.
+	//core joint [orientering min/maks] b�r sjekkes mot hvordan roboten er satt opp.
+
+	float dropHeight=SC*18;
 
 	//New order, pc and battery parts were wrong wrt. leg order
-	NxMat34 temp1 = createTfm(0,SC*40,0,0,0,PI/2);
-	Part* batteryPart=lastPart=createBatteryCore(NULL,temp1,false);
+	NxMat34 temp1 = createTfm(0,dropHeight,0,0,0,PI/2);
+	Part* batteryPart=lastPart=createBatteryCore(NULL,temp1,false); 
 	NxMat34 temp6 = createTfm(SC*-5.5f,SC*7,SC*6.4f,PI/4,PI,0);
 	createLeg(lastPart->act,temp6,false);
 	NxMat34 temp2 = createTfm(SC*-5.5f,SC*-7,SC*6.4f,3*PI/4,PI,0);
@@ -252,6 +254,7 @@ QuadroMachine::QuadroMachine(QuadroParams* params/* =NULL */)
 
 	//can add sensors here
 	//can increase solver accuracy here
+	//needs a high number of iterations for the joints to be strong enough
 	//int solverIterations=100; //4 is default
 	int solverIterations=200; //4 is default
 	BOOST_FOREACH(Part* part, m_robParts) //syntax not portable
@@ -366,6 +369,14 @@ void QuadroMachine::initMeshes()
 		m_upperLegMesh->m_mat->setColor(0.2f,0.2f,1);
 		m_lowerLegMesh=new MeshGraphicsObject("data/quadrobot/legending",scale,SC*-1.8f,SC*-0.2f,SC*-2);
 		m_lowerLegMesh->m_mat->setColor(0.4f,0.4f,1);
+
+		//temp color scheme
+		m_pcPartMesh->m_mat->setColor(0.6f,0.5f,0.08f);
+		m_batteryPartMesh->m_mat->setColor(0.6f,0.4f,0.12f);
+		m_upperLegMesh->m_mat->setColor(0.6f,0.3f,0.05f);
+		m_lowerLegMesh->m_mat->setColor(0.6f,0.3f,0.15f);
+
+
 	}
 }
 
@@ -406,16 +417,23 @@ void QuadroMachine::controlRevoluteMotorP(NxRevoluteJoint* joint, float targetAn
 }
 
 
+//void QuadroMachine::enableSimLogging(bool enable)
 void QuadroMachine::enableSimLogging(bool enable)
 {
-	//later: add option for logging on specific frames - auto-switch off ?
-	std::string logFileName="log_sim.txt";
+	QuadroMachine::enableSimLogging(enable, "log_sim.txt");
+}
+
+void QuadroMachine::enableSimLogging(bool enable, const std::string logFileName/* ="log_sim.txt" */)
+	{
+	//later: add option for logging on specific frames - auto-swith off ?
+	//std::string logFileName="log_sim.txt";
 	logSim=enable;
 	if(simLogFile==NULL) {
 		printf("opening log file %s for writing\n",logFileName.c_str());
 		if(!(simLogFile=fopen(logFileName.c_str(),"w"))) {
 			printf("could not open log file %s for writing\n",logFileName.c_str());
 			logSim=false;
+			return;
 		}
 	}
 	fprintf(simLogFile,"# simtime (joint_commanded joint_actual_pos)x%d pos.x pos.y pos.z\n",NUM_JOINTS);
@@ -441,7 +459,7 @@ float calculateQuadroFitness(GAGenome& g)
 	gScene->setGravity(NxVec3(0,-9.81*100.0f,0)); //depending on scale
 
 	//int runFrames=2500;
-	float evalDuration=7.0f; //seconds
+	float evalDuration=10.0f; //seconds
 	//float evalDuration=15.0f; //seconds
 	int runFrames=(int)(evalDuration/QUADRO_TIMESTEP);
 
@@ -471,6 +489,7 @@ float calculateQuadroFitness(GAGenome& g)
 
 		machine.update((float)simTime);
 		setFollowTargetAndPanning(Vec3(lastPos.x,lastPos.y,lastPos.z),0);
+		//setFollowTargetAndPanning(Vec3(lastPos.x,lastPos.y,lastPos.z),simTime*0.1f);
 		evoHarness->updateGraphicsAndPhysics(freeze);
 		if(!freeze)
 			simTime+=evoHarness->m_timestep;

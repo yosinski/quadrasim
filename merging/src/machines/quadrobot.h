@@ -28,7 +28,7 @@ struct QuadroParams : public FloatParamMultiValList
 
 	QuadroParams(){
 		numJoints=NUM_JOINTS;
-		//nï¿½: limlow/high er -1..1, blir oversatt til -PI..PI
+		//n�: limlow/high er -1..1, blir oversatt til -PI..PI
 		//can introduce fewer parameters later by exploiting symmetry
 		//NOTE! now there is no checking of combinations of joint angles resulting in invalid/HAZARDOUS configurations (e.g. both inner and outer joints are min)
 
@@ -102,14 +102,16 @@ class Quadrobot
 public:
 	enum ControlMode { IDLE, PARAMETERED_CONTROL, MANUAL_CONTROL, PLAYBACK_CONTROL };
 	
-	//MÅ MAN HA CONSTRUCTOR HER?
+	//M� MAN HA CONSTRUCTOR HER?
 	void init(QuadroParams* params =NULL );
 
 	//QuadroMachine(QuadroParams* params=NULL);
+	//void loadPlaybackFile(const char* fileName, bool loopPlayback=true);
 	void loadPlaybackFile(const char* fileName);
 	void setJointTarget(unsigned jointNumber,float angle);
 	float getJointTarget(unsigned jointNumber);
 	int controlMode;
+	bool playingBack;
 
 	void updateControl(float time);
 	

@@ -83,7 +83,7 @@ int FloatParamMultiValList::loadFromStream(std::ifstream &inFile)
 	if(!inFile)
 		return -1;
 
-	std::map<std::string, std::vector<FloatParam>>::iterator it;
+	std::map<std::string, std::vector<FloatParam> >::iterator it;
 	for(it=paramList.begin(); it!=paramList.end() && !inFile.eof(); it++) {
 		//inFile >> it->second.val;
 		std::vector<FloatParam>::iterator jt;

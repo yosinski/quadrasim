@@ -3,25 +3,18 @@
 #include "testobjects.h"
 #include "graphics/MeshGraphicsObject.h"
 #include "base/system.h"
-#include "physx/MyCloth.h"
 #include "graphics/glstuff.h"
 #include "machines/machine.h"
-
-//various machines for testing
-#include "machines/legmachine.h"
-#include "machines/x2industrial.h"
-#include "machines/x2crawler.h"
-#include "machines/quadromachine.h"
-#include "hardware/quadrohardware.h"
 #include <iostream>
 #include <boost/foreach.hpp>
 
-//testing:
-//#include "hardware/axservo.h"
-//DynamixelDevice dxlDevice;
+//various machines for testing
+#include "machines/quadrobot.h"
+#include "machines/quadromachine.h"
+#include "hardware/quadrohardware.h"
+
 bool enableRealRobot=false;
 QuadroHardware* quadroHW=NULL;
-
 
 std::vector<Machine*> machines;
 Part* followPart=NULL; //hack for follow cam
@@ -77,10 +70,27 @@ void updateTestObjects()
 
 void setupTestObjectScene()
 {
+	double t0=glfwGetTime();
 	cleanUpTestObjects();
+	double t1=glfwGetTime();
 	terminatePhysics();
-	initPhysics(); //hvor mye av dette mï¿½ gjï¿½res for reset??
+	double t2=glfwGetTime();
+	initPhysics(); //hvor mye av dette m� gj�res 2or reset??
+	double t3=glfwGetTime();
+	printf("init times:\n cleanup internal data: %f\n terminate physics %f\n init physics %f\n total %f\n\n",t1-t0,t2-t1,t3-t2,t3-t0);
 	frameCount=0;
+}
+
+void softReset()
+{
+	double t0=glfwGetTime();
+	cleanUpTestObjects();
+	//also: remove objects with physx calls
+	//gPhysicsSDK->releaseScene(*gScene); ?? i s� fall m� scenen settes opp p� nytt
+	double t1=glfwGetTime();
+
+	printf("soft reset: %f\n",t1-t0);
+
 }
 
 void addTestMachine(Machine *m)
@@ -90,12 +100,37 @@ void addTestMachine(Machine *m)
 }
 
 
-void testObjectLoop()
+
+void quadroLoop(const std::string &controlFileName, const std::string &logFileName, bool loop)
 {
 	setupTestObjectScene();
 	static double lastTime=0;
 	bool animateJoints=false;
 	bool running = true;
+
+	if(!controlFileName.empty()) {
+		QuadroParams *p=new QuadroParams;
+		QuadroMachine* m=new QuadroMachine(p);
+		gScene->setGravity(NxVec3(0,-9.81*100.0,0));
+		simTimeStep=QUADRO_TIMESTEP;
+		//if(quadroHW) quadroHW->init(p);
+		//if(quadroHW)
+		//	quadroHW->loadPlaybackFile(playbackFileName);
+		//if(quadroHW)
+		//	quadroHW->enableHWLogging(true);
+		//m->loadPlaybackFile(controlFileName.c_str(),loop);   // [SL] Disabled for now!
+		m->loadPlaybackFile(controlFileName.c_str());
+		addTestMachine(m);
+		quadMachine=m;
+		m->enableControlLogging(true);
+		if(!logFileName.empty())
+			m->enableSimLogging(true,std::string(logFileName));
+		else 
+			m->enableSimLogging(true);
+		animateJoints=true;
+	}
+
+
 	while( running )
 	{
 		updateFPS();
@@ -106,91 +141,33 @@ void testObjectLoop()
 		}
 
 		//selection of test objects
-		Point3D pos(randRangef(-1,1)*32,40.0f, randRangef(-1,1)*32);
-		Point3D dims(randRangef(0.5f,3.0f),randRangef(0.5f,3.0f),randRangef(0.5f,3.0f));
-		if(glfwGetKey(GLFW_KEY_SPACE)) createBoxPart(pos,dims);
-		if(glfwGetKey(GLFW_KEY_LSHIFT)) createCapsulePart(pos,dims.x*2,true,dims.y);
 		double curTime=glfwGetTime();
 		if(curTime-lastTime > 0.2) {
 			int loadParams=glfwGetKey(GLFW_KEY_LCTRL);
-			if(glfwGetKey('7'))  {
-				LegParams p;
-				if(loadParams && -1==p.loadFromFile("bestind.txt")) systemError("could not load leg params");
-				addTestMachine(new LegMachine(p,LegMachine::CLOTH_MUSCLE));
-			}
-			if(glfwGetKey('Q')) {
-				X2IndustrialParams *p=new X2IndustrialParams;
-				if(loadParams && -1==p->loadFromFile("bestind.txt")) systemError("could not load x2 params");
-				addTestMachine(new X2Industrial(p));
-			}
-			if(glfwGetKey('T')) {
-				X2CrawlerParams *p=new X2CrawlerParams;
-				if(loadParams && -1==p->loadFromFile("bestind.txt")) systemError("could not load x2 crawler params");
-				addTestMachine(new X2Crawler(p,true));
-			}
 			if(glfwGetKey('U')) {
 				QuadroParams *p=new QuadroParams;
-				if(loadParams && -1==p->loadFromFile("bestind.txt")) systemError("could not load quadroparams");
-				//addTestMachine(new QuadroMachine(p));
+				if(loadParams && -1==p->loadFromFile("log_bestind.txt")) systemError("could not load quadroparams");
 				QuadroMachine* m=new QuadroMachine(p);
+				gScene->setGravity(NxVec3(0,-9.81*100.0,0));
+				simTimeStep=QUADRO_TIMESTEP;
 				if(quadroHW) quadroHW->init(p);
 				if(glfwGetKey(GLFW_KEY_RALT)) {
-					const char* playbackFileName="example_log_1.txt";
-					m->loadPlaybackFile(playbackFileName);
-					//m->loadPlaybackFile("fixed_positions.txt");
+					char* playbackFileName="example_log_1.txt";
+					//m->loadPlaybackFile(playbackFileName);
+					m->loadPlaybackFile("cmd_fixed_positions.txt");
 					if(quadroHW)
 						quadroHW->loadPlaybackFile(playbackFileName);
 				}
 				addTestMachine(m);
-				//experimental:
-				//m->controlMode=QuadroMachine::MANUAL_CONTROL;
 				quadMachine=m;
-				
-				gScene->setGravity(NxVec3(0,-9.81*100.0,0));
-				simTimeStep=QUADRO_TIMESTEP;
 				//m->enableControlLogging(true);
 				//m->enableSimLogging(true);
 				//if(quadroHW)
 				//	quadroHW->enableHWLogging(true);
-				
-				//todo: sjekke vekt av center part etter å ha forandret density
-				// - går det an å tilpasse større gravity?
-				// - det hjelper om flere iterations - nå 50
-				// - lese igjen om balanse i delers masse osv.
-				// - prøve å tilpasse deler, se hva som ble gjort i muskeloppsett
-				// - kanskje gjøre bein litt fyldigere
-				// - må også gjøre dette sammen med testing av virkelig robot
-				//todo: motor control implementation
 
 			}
-			if(glfwGetKey(GLFW_KEY_LCTRL) && glfwGetKey(GLFW_KEY_RALT)) {
-				if(NULL==quadroHW)
-					quadroHW=new QuadroHardware();
-				enableRealRobot=true;
-				simTimeStep=QUADRO_TIMESTEP;
-				glfwSwapInterval(1); //setting time to "real" time
-
-
-			}
-
 			if(glfwGetKey(GLFW_KEY_F2)) setupTestObjectScene(); //this takes time, could consider cleaning up only objects
 			if(glfwGetKey(GLFW_KEY_F3)) animateJoints=!animateJoints;
-
-			//experimental manual joint control quadromachine
-			/*if(quadMachine) {
-				static float manualAngle=0;
-				float step=0.2f;
-				if(glfwGetKey('I')) manualAngle+=step;
-				if(glfwGetKey('K')) manualAngle-=step;
-				//manualAngle=clamp(manualAngle,QuadroParams::innerAngleMin,QuadroParams::innerAngleMax); //depends on joint
-				unsigned curJoint=0;
-				quadMachine->setJointTarget(curJoint,manualAngle);
-				if(enableRealRobot) {
-					int servoAngle=(int)angleToServo(manualAngle);
-					printf("writing %d to servo\n",servoAngle);
-					dxlDevice.setPosition(curJoint,servoAngle);
-				}
-			}*/
 
 			lastTime=curTime;
 		}
@@ -217,6 +194,11 @@ void testObjectLoop()
 			imgRecorder->update();
 
 		running = !glfwGetKey( GLFW_KEY_ESC ) && glfwGetWindowParam( GLFW_OPENED );
+
+		//make some better logic for this later
+		if(quadMachine && !controlFileName.empty() && quadMachine->playingBack==false)
+			running=false;
+
 	}
 }
 

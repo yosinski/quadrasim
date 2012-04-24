@@ -26,7 +26,7 @@ struct QuadroParams : public FloatParamMultiValList
 	//these are constant parameters, not to be evolved
 	int numJoints;
 
-	QuadroParams::QuadroParams() {
+	QuadroParams(){
 		numJoints=NUM_JOINTS;
 		//nå: limlow/high er -1..1, blir oversatt til -PI..PI
 		//can introduce fewer parameters later by exploiting symmetry
@@ -124,7 +124,7 @@ protected:
 	float calcSinEnvelopeFromParams(float attackTime,float p0Time,float decayTime,float p1Time,float t,float phase); //calculates position in a "sine envelope function" from pause parameter values (period is normalized)
 
 	std::vector<float> m_jointTargets;
-	std::vector<std::pair<float,float>> m_jointLimitAngles;
+	std::vector<std::pair<float,float> > m_jointLimitAngles;
 	float m_innerAngleMin;
 	float m_innerAngleMax;
 	float m_outerAngleMin;

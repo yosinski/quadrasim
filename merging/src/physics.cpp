@@ -10,11 +10,13 @@ NxPhysicsSDK* gPhysicsSDK = NULL;
 NxScene* gScene = NULL;
 DebugRenderer gDebugRenderer;
 ErrorStream gErrorStream;
-bool gRenderUserData=true;
+//bool gRenderUserData=true;
+bool gRenderUserData=false;
 bool gCookingInitialized=false;
 //bool gHardwareSimulation=true;
 bool gHardwareSimulation=false;
 bool gFreeze=false;
+
 std::vector<Part *> parts;
 std::vector<NxRevoluteJoint *> joints; 
 std::vector<MyCloth *> cloths; //at least for now
@@ -173,7 +175,7 @@ NxActor* createSphere(const NxVec3& pos, float size)
 	if(gScene == NULL || !gScene->isWritable()) return NULL;	
 
 	NxActorDesc actorDesc;
-	NxBodyDesc bodyDesc; //body description required for dynamic actors
+	NxBodyDesc bodyDesc; //body desc required for dynamic actors
 	NxSphereShapeDesc sphereDesc;
 	sphereDesc.radius		= size;
 	sphereDesc.localPose.t	= NxVec3(0, 0, 0);
@@ -210,7 +212,7 @@ NxActor* createBox(const NxVec3& pos, const NxVec3& dimensions,bool dynamic)
 	return gScene->createActor(actorDesc);
 }
 
-Part* createBoxPart(const Point3D& pos, const Point3D& dimensions,bool dynamic)
+Part* createBoxPart(const Point3D& pos, Point3D& dimensions,bool dynamic)
 {
 	Part* p=new Part(createBox(NxVec3(pos.x,pos.y,pos.z),NxVec3(dimensions.x,dimensions.y,dimensions.z),dynamic));
 	parts.push_back(p);

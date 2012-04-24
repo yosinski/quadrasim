@@ -616,7 +616,7 @@ int OBJ::ParseLine(int lineno,int argc,const char **argv)  // return TRUE to con
     const char *foo = argv[0];
     if ( *foo != '#' )
     {
-      if ( _stricmp(argv[0],"v") == 0 && argc == 4 )
+      if ( strcasecmp(argv[0],"v") == 0 && argc == 4 )
       {
         float vx = (float) atof( argv[1] );
         float vy = (float) atof( argv[2] );
@@ -625,7 +625,7 @@ int OBJ::ParseLine(int lineno,int argc,const char **argv)  // return TRUE to con
         mVerts.push_back(vy);
         mVerts.push_back(vz);
       }
-      else if ( _stricmp(argv[0],"vt") == 0 && (argc == 3 || argc == 4))
+      else if ( strcasecmp(argv[0],"vt") == 0 && (argc == 3 || argc == 4))
       {
         // ignore 4rd component if present
         float tx = (float) atof( argv[1] );
@@ -633,7 +633,7 @@ int OBJ::ParseLine(int lineno,int argc,const char **argv)  // return TRUE to con
         mTexels.push_back(tx);
         mTexels.push_back(ty);
       }
-      else if ( _stricmp(argv[0],"vn") == 0 && argc == 4 )
+      else if ( strcasecmp(argv[0],"vn") == 0 && argc == 4 )
       {
         float normalx = (float) atof(argv[1]);
         float normaly = (float) atof(argv[2]);
@@ -642,7 +642,7 @@ int OBJ::ParseLine(int lineno,int argc,const char **argv)  // return TRUE to con
         mNormals.push_back(normaly);
         mNormals.push_back(normalz);
       }
-      else if ( _stricmp(argv[0],"f") == 0 && argc >= 4 )
+      else if ( strcasecmp(argv[0],"f") == 0 && argc >= 4 )
       {
         GeometryVertex v[32];
 

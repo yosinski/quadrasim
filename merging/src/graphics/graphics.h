@@ -15,6 +15,7 @@ void drawGroundPlane(float size);
 void initRendering();
 void terminateGraphics();
 void drawScreenAlignedQuad();
+void drawScreenAlignedQuad(float u0,float v0,float u1,float v1);
 void setFollowTargetAndPanning(Vec3 target,float panAmount=0.0f);
 void glow(FrameBufferObject *sourceBuffer, float glowAmount);
 void toggleRetrace();
@@ -43,6 +44,8 @@ extern bool g_visualize;
 
 #define ENABLE_POSTPROCESSING 1
 extern bool g_enableGlow;
+extern bool g_enableOverlay;
+extern bool g_enableNoise;
 
 
 

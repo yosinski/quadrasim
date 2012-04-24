@@ -13,13 +13,16 @@
 #include "glstuff.h"
 #include <stdlib.h>
 #include "../physics.h"
-#include <jpeglib.h>
+#include "jpeglib.h"
+#include "Overlay.h"
 
 void drawScene(bool follow=false,bool drawGround=true);
 
 //globally accessible for now
 bool g_visualize=true;
 bool g_enableGlow=false;
+bool g_enableOverlay=false;
+bool g_enableNoise=false;
 
 ShaderSystem* g_shaderSys=NULL;
 
@@ -48,6 +51,10 @@ int camType=CAM_MOUSEPAN;
 //for shaders:
 Vec3 g_lightPos;
 float g_viewMat[16];
+
+//overlays
+Overlay *g_overlay=NULL;
+NoiseOverlay *g_noiseOverlay=NULL;
 
 
 void terminateGraphics()
@@ -85,7 +92,7 @@ void initRendering()
 	CapsuleGraphicsObject::initVertices(24);
 
 	//could make some storage for the textures later
-	tempTex2=new Texture("data/concfloor512.tga");
+	tempTex2=new Texture("data/concfloor1024.tga");
 	tempTex=new Texture("data/Threadplate1024_bright.tga");
 	//tempTex=new Texture("data/concfloor512.tga");
 
@@ -123,6 +130,12 @@ void initRendering()
 
 	//global light pos
 	g_lightPos.set(100,100,250);
+
+	//overlays
+	g_overlay=new Overlay;
+	g_overlay->addOverlay("default","data/overlays/default.tga");
+	g_noiseOverlay=new NoiseOverlay();
+	g_noiseOverlay->addOverlay("dummy","data/overlays/noise1.tga");
 
 	//opengl states
 	glEnable(GL_CULL_FACE);
@@ -166,7 +179,7 @@ void glow(FrameBufferObject *sourceBuffer, float glowAmount)
 
 	glDisable(GL_LIGHTING);
 	glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA,GL_ONE); //blir det feil? er alle src pixler alpha 1? mÃ¥ revisere blendregler (src alpha fra tex? hva slags tex?)
+	//glBlendFunc(GL_SRC_ALPHA,GL_ONE); //blir det feil? er alle src pixler alpha 1? må revisere blendregler (src alpha fra tex? hva slags tex?)
 	glBlendFunc(GL_ONE,GL_ONE);
 	glEnable(GL_TEXTURE_2D);
 
@@ -233,6 +246,11 @@ void drawGroundPlane(float size)
 
 void drawScreenAlignedQuad()
 {
+	drawScreenAlignedQuad(0,0,1,1);
+}
+
+void drawScreenAlignedQuad(float u0,float v0,float u1,float v1)
+{
 	glDisable(GL_DEPTH_TEST);
 	glDepthMask(GL_FALSE);
 	glDisable(GL_LIGHTING);
@@ -245,13 +263,13 @@ void drawScreenAlignedQuad()
 	glLoadIdentity(); 
 	glBegin(GL_QUADS); 
 	//glColor3f(1,1,1);
-	glTexCoord2f(0,0);
+	glTexCoord2f(u0,v0);
 	glVertex3i(-1, -1, -1); 
-	glTexCoord2f(1,0);
+	glTexCoord2f(u1,v0);
 	glVertex3i(1, -1, -1); 
-	glTexCoord2f(1,1);
+	glTexCoord2f(u1,v1);
 	glVertex3i(1, 1, -1); 
-	glTexCoord2f(0,1);
+	glTexCoord2f(u0,v1);
 	glVertex3i(-1, 1, -1); 
 	glEnd(); 
 	glPopMatrix(); 
@@ -322,7 +340,7 @@ void followCam()
 	//follow a point
 	static unsigned frames=0;
 	//float dist=100.0f;
-	float dist=60.0f;
+	float dist=50.0f;
 	Vec3 pos;
 	Vec3 target=followTarget;
 	target.y-=5.0f;
@@ -348,7 +366,8 @@ void followCam()
 		pos.x=target.x+dist*sin(angle);
 		//pos.y=target.y+0.5f*dist+0.5f*dist*cos(angle/2.0f);
 		//pos.y=target.y+0.3f*dist+0.5f*dist*cos(angle/2.0f);
-		pos.y=0.3f*dist+0.5f*dist*cos(angle/2.0f);
+		//pos.y=0.3f*dist+0.5f*dist*cos(angle/2.0f);
+		pos.y=0.1f*dist+0.5f*dist*cos(angle/2.0f);
 		//pos.y=0.5f*dist+0.5f*dist*cos(angle/2.0f);
 		pos.z=target.z+dist*cos(angle);
 	}
@@ -474,8 +493,12 @@ void updateGraphics(void)
 		fbo->bind();
 		drawScene(false,false);
 		fbo->unBind();
-		glow(fbo,0.70f);
+		glow(fbo,0.90f);
 	}
+	if(g_enableOverlay && g_overlay)
+		g_overlay->draw();
+	if(g_enableNoise && g_noiseOverlay)
+		g_noiseOverlay->draw();
 }
 
 

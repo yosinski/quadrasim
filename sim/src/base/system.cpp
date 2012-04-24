@@ -72,8 +72,6 @@ void GLFWCALL processGlobalKeys(int key,int action)
 
 		if(glfwGetKey(GLFW_KEY_F1)) g_visualize=!g_visualize;
 		if(glfwGetKey('\'')) g_enableGlow=!g_enableGlow;
-		if(glfwGetKey('-')) g_enableOverlay=!g_enableOverlay;
-		if(glfwGetKey('.')) g_enableNoise=!g_enableNoise;
 		if(glfwGetKey(GLFW_KEY_F4)) toggleRetrace();
 		if(glfwGetKey(GLFW_KEY_F5)) camType=CAM_MOUSEPAN;
 		if(glfwGetKey(GLFW_KEY_F6)) camType=CAM_FOLLOW;

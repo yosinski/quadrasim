@@ -38,7 +38,7 @@ class ErrorStream : public NxUserOutputStream
 	}
 
 	void print(const char* message) {
-		printf("%s", message);
+		printf(message);
 	}
 };
 
