@@ -167,7 +167,7 @@ void glow(FrameBufferObject *sourceBuffer, float glowAmount)
 
 	glDisable(GL_LIGHTING);
 	glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA,GL_ONE); //blir det feil? er alle src pixler alpha 1? må revisere blendregler (src alpha fra tex? hva slags tex?)
+	//glBlendFunc(GL_SRC_ALPHA,GL_ONE); //blir det feil? er alle src pixler alpha 1? mÃ¥ revisere blendregler (src alpha fra tex? hva slags tex?)
 	glBlendFunc(GL_ONE,GL_ONE);
 	glEnable(GL_TEXTURE_2D);
 

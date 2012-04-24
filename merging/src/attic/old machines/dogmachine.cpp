@@ -12,8 +12,8 @@
 #define cout STD_COUT
 
 
-//hvordan skal man egentlig håndtere store genomer nå? tungvint å ha navn på alt? 
-// -gjøre det automatisk med navn/strings?
+//hvordan skal man egentlig hÃ¥ndtere store genomer nÃ¥? tungvint Ã¥ ha navn pÃ¥ alt? 
+// -gjÃ¸re det automatisk med navn/strings?
 // -ha en mellomstruktur med strings / interface?
 // -?
 
@@ -100,7 +100,7 @@ DogMachine::DogMachine(DogParams& params)
 	//createRevoluteJoint(topPart->physicsEquivalent,leg2->physicsEquivalent,NxVec3(-platLen*legFromEdge,platHeight-platThickness-0.5f,z),NxVec3(0,0,1),limLow,limHigh);
 	//createRevoluteJoint(topPart->physicsEquivalent,leg3->physicsEquivalent,NxVec3(platLen*legFromEdge,platHeight-platThickness-0.5f,-z),NxVec3(0,0,1),limLow,limHigh);
 	//createRevoluteJoint(topPart->physicsEquivalent,leg4->physicsEquivalent,NxVec3(-platLen*legFromEdge,platHeight-platThickness-0.5f,-z),NxVec3(0,0,1),limLow,limHigh);
-	//nå er det litt vinkler på beina...
+	//nÃ¥ er det litt vinkler pÃ¥ beina...
 	//createRevoluteJoint(topPart->physicsEquivalent,leg1->physicsEquivalent,NxVec3(platLen*legFromEdge,platHeight-platThickness-0.5f,z),NxVec3(-0.3f,0,1),limLow,limHigh);
 	//createRevoluteJoint(topPart->physicsEquivalent,leg2->physicsEquivalent,NxVec3(-platLen*legFromEdge,platHeight-platThickness-0.5f,z),NxVec3(0.3f,0,1),limLow,limHigh);
 	//createRevoluteJoint(topPart->physicsEquivalent,leg3->physicsEquivalent,NxVec3(platLen*legFromEdge,platHeight-platThickness-0.5f,-z),NxVec3(0.3f,0,1),limLow,limHigh);
@@ -402,7 +402,7 @@ DogEvolutionHarness::DogEvolutionHarness(int seed)
 	//mapping of bits to decimals
 	GABin2DecPhenotype mapping;
 	DogParams p; //initializes min/max values
-	//må ha iterator..
+	//mÃ¥ ha iterator..
 	std::map<std::string, FloatParam>::iterator it;
 	for(it=p.paramList.begin(); it!=p.paramList.end(); it++) {
 		//mapping.add(8, it->second.minVal, it->second.maxVal); //8b precision

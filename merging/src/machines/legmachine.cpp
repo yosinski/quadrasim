@@ -96,7 +96,7 @@ void LegMachine::attachMuscles(Part* platform,Part** legPointers,Muscle** muscle
 	float topMusAttTopLegFront=params.getValue("topMuscleAttachPointTopLegFront");
 	float botMusAttTopLegBack=params.getValue("botMuscleAttachPointTopLegBack");
 	float botMusAttTopLegFront=params.getValue("botMuscleAttachPointTopLegFront");
-	//botLeg back alltid på tuppen
+	//botLeg back alltid pÃ¥ tuppen
 	float musAttBotLegFront=params.getValue("muscleAttachPointBotLegFront");
 	NxVec3 localAttachBackPlatform(-platDims.x,0,localAttachPoint.z);
 	NxVec3 localAttachFrontPlatform(platDims.x,0,localAttachPoint.z);
@@ -442,7 +442,7 @@ float calculateLegFitness(GAGenome& g)
 			}
 		}
 
-		//kan også gjøre denne sjekke for last N frames, som over. Kanskje bedre
+		//kan ogsÃ¥ gjÃ¸re denne sjekke for last N frames, som over. Kanskje bedre
 		//check if too high speed (can only do after a certain time)
 		if(f>150) {
 			//float speed=fabs((float)distSum)/f;
@@ -536,7 +536,7 @@ LegEvolutionHarness::LegEvolutionHarness(int seed)
 	//mapping of bits to decimals
 	GABin2DecPhenotype mapping;
 	LegParams p; //initializes min/max values
-	//må ha iterator..
+	//mÃ¥ ha iterator..
 	std::map<std::string, FloatParam>::iterator it;
 	for(it=p.paramList.begin(); it!=p.paramList.end(); it++) {
 		mapping.add(it->second.precision, it->second.minVal, it->second.maxVal); //specified precision

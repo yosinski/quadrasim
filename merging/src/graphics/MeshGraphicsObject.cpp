@@ -146,7 +146,7 @@ void MeshGraphicsObject::loadOBJ(const char *fileName)
 		}
 		else if(strcmp(tempStr,"f")==0) {
 			//2 muligheter: enten 
-			//f int int int   når bare ref til verts, eller
+			//f int int int   nÃ¥r bare ref til verts, eller
 			//f int/[int]/[int]  3 ganger ex. 12//10 13//4 14//6 eller 12/11/12 etc
 
 			//this was overkill (but interesting use of sscanf):

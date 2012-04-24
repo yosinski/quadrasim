@@ -17,8 +17,8 @@
 
 //Other cause for overload could be not delivering enough current? PSU: 5A. AX12 0.9A AX18 2.2A (max values)
 
-//det virker som overload inntreffer når den prøver å loade men ikke får nok strøm eller noe annet.
-//torque limit gjør mer til at den ikke prøver, men gir ikke overload i seg selv(?)
+//det virker som overload inntreffer nÃ¥r den prÃ¸ver Ã¥ loade men ikke fÃ¥r nok strÃ¸m eller noe annet.
+//torque limit gjÃ¸r mer til at den ikke prÃ¸ver, men gir ikke overload i seg selv(?)
 
 
 class QuadroHardware : public Quadrobot

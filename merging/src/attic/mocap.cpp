@@ -35,7 +35,7 @@ void Mocap::processDataForIntro()
 	}
 
 	/*
-	//kan scale med forskjellige faktorer i forskjellige dimensjoner hvis man bare kjenner disse når man scaler opp igjen
+	//kan scale med forskjellige faktorer i forskjellige dimensjoner hvis man bare kjenner disse nÃ¥r man scaler opp igjen
 	printf("scaling\n");
 	//double maxExtent=__max(max.x-min.x,__max(max.y-min.y,max.z-min.z));
 	printf("max extent: %f\n",maxExtent);

@@ -26,7 +26,7 @@ struct QuadroParams : public FloatParamMultiValList
 		//deduce initAngle and limitAmp from limLow and limHigh, easier for control system
 		//but keep limlow/high as parameters because easiest to specify joint min/max
 		//can also change to one initial angle + amplitude
-		//nå: limlow/high er -1..1, blir oversatt til -PI..PI
+		//nÃ¥: limlow/high er -1..1, blir oversatt til -PI..PI
 
 		//can introduce fewer parameters later by exploiting symmetry
 

@@ -24,7 +24,7 @@ struct LegParams {
 	//radius, height, attach_high,attach_lo
 	//the volumes, thus radius and height, need to be equal (antagonist muscles)
 
-	//forandre på disse til forenklet (droppe festepunkter på benet men tenke platform, som på tavle)
+	//forandre pÃ¥ disse til forenklet (droppe festepunkter pÃ¥ benet men tenke platform, som pÃ¥ tavle)
 	int nParams;
 	float *minVals;
 	float *maxVals;

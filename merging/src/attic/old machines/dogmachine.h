@@ -47,7 +47,7 @@ struct DogParams : public FloatParamList
 
 
 		//control!
-		//må kontrollere 4 muskler på en side pluss faseforskyvning til den andre siden (1 param, ellers samme delays etc)
+		//mÃ¥ kontrollere 4 muskler pÃ¥ en side pluss faseforskyvning til den andre siden (1 param, ellers samme delays etc)
 
 
 		//    ___
@@ -55,12 +55,12 @@ struct DogParams : public FloatParamList
 		//     p0  p1
 		// up and down speed dependent on muscle vol
 		//p1=1-p0
-		paramList["pause0"]=FloatParam(0.2f,0.1f,0.6f,8); //forhold av/på for muskel0
+		paramList["pause0"]=FloatParam(0.2f,0.1f,0.6f,8); //forhold av/pÃ¥ for muskel0
 		paramList["attack"]=FloatParam(0.05f,0.03f,0.1f,6); //attack time in envelope
 		paramList["decay"]=FloatParam(0.6f,0.03f,0.8f,6); //decay time in envelope
-		paramList["freq"]=FloatParam(0.8f,0.1f,1.0f,10);   //høy hastighet blir ustabilt?
+		paramList["freq"]=FloatParam(0.8f,0.1f,1.0f,10);   //hÃ¸y hastighet blir ustabilt?
 		paramList["phase0"]=FloatParam(0.25f,0,1,8);    //fase mellom for- og bakben
-		paramList["phase1"]=FloatParam(0.5f,0,1,8);    //fase mellom venstre og høyre side
+		paramList["phase1"]=FloatParam(0.5f,0,1,8);    //fase mellom venstre og hÃ¸yre side
 
 
 
@@ -76,29 +76,29 @@ struct DogParams : public FloatParamList
 		//paramList["leg2attlofront"]=FloatParam(0.8f,0.8f,1.0f,3);
 		//paramList["leg2attloback"]=FloatParam(0.8f,0.8f,1.0f,3);
 		//paramList["leg2atthifront"]=FloatParam(0.8f,0.1f,0.9f,5);
-		//paramList["pause0"]=FloatParam(0.2f,0.1f,0.6f,8); //forhold av/på for muskel0
+		//paramList["pause0"]=FloatParam(0.2f,0.1f,0.6f,8); //forhold av/pÃ¥ for muskel0
 		//paramList["attack"]=FloatParam(0.05f,0.03f,0.2f,6); //attack time in envelope
 		//paramList["decay"]=FloatParam(0.6f,0.05f,0.8f,6); //decay time in envelope
-		//paramList["freq"]=FloatParam(0.6f,0.1f,1.0f,10);   //høy hastighet blir ustabilt?
+		//paramList["freq"]=FloatParam(0.6f,0.1f,1.0f,10);   //hÃ¸y hastighet blir ustabilt?
 		//paramList["phase0"]=FloatParam(0.25f,0,1,8);    //fase mellom for- og bakben
-		//paramList["phase1"]=FloatParam(0.5f,0,1,8);    //fase mellom venstre og høyre side
+		//paramList["phase1"]=FloatParam(0.5f,0,1,8);    //fase mellom venstre og hÃ¸yre side
 
 		//successful "trot"
 		//morphology values same as above
-		//paramList["pause0"]=FloatParam(0.4f,0.1f,0.6f,8); //forhold av/på for muskel0
+		//paramList["pause0"]=FloatParam(0.4f,0.1f,0.6f,8); //forhold av/pÃ¥ for muskel0
 		//paramList["attack"]=FloatParam(0.05f,0.03f,0.1f,6); //attack time in envelope
 		//paramList["decay"]=FloatParam(0.5f,0.03f,0.8f,6); //decay time in envelope
-		//paramList["freq"]=FloatParam(1.0f,0.1f,2.0f,10);   //høy hastighet blir ustabilt?
+		//paramList["freq"]=FloatParam(1.0f,0.1f,2.0f,10);   //hÃ¸y hastighet blir ustabilt?
 		//paramList["phase0"]=FloatParam(0.5f,0,1,8);    //fase mellom for- og bakben
-		//paramList["phase1"]=FloatParam(0.5f,0,1,8);    //fase mellom venstre og høyre side
+		//paramList["phase1"]=FloatParam(0.5f,0,1,8);    //fase mellom venstre og hÃ¸yre side
 
 		//successful "pace"
-		//paramList["pause0"]=FloatParam(0.4f,0.1f,0.6f,8); //forhold av/på for muskel0
+		//paramList["pause0"]=FloatParam(0.4f,0.1f,0.6f,8); //forhold av/pÃ¥ for muskel0
 		//paramList["attack"]=FloatParam(0.05f,0.03f,0.1f,6); //attack time in envelope
 		//paramList["decay"]=FloatParam(0.5f,0.03f,0.8f,6); //decay time in envelope
-		//paramList["freq"]=FloatParam(1.0f,0.1f,2.0f,10);   //høy hastighet blir ustabilt?
+		//paramList["freq"]=FloatParam(1.0f,0.1f,2.0f,10);   //hÃ¸y hastighet blir ustabilt?
 		//paramList["phase0"]=FloatParam(0.0f,0,1,8);    //fase mellom for- og bakben
-		//paramList["phase1"]=FloatParam(0.5f,0,1,8);    //fase mellom venstre og høyre side
+		//paramList["phase1"]=FloatParam(0.5f,0,1,8);    //fase mellom venstre og hÃ¸yre side
 
 	}
 

@@ -40,8 +40,8 @@ void EvolutionHarness::evolve(bool continueFromFile)
 
 	//load continue data from file here? This could possibly have been in some evolution setup phase
 	//but need to create that first
-	//man må enten constructe ga med en pop
-	//eller sette pop senere med population(pop) men kanskje enklest å constructe??
+	//man mÃ¥ enten constructe ga med en pop
+	//eller sette pop senere med population(pop) men kanskje enklest Ã¥ constructe??
 
 	if(continueFromFile) {
 		std::ifstream inFile("log_lastgen.txt",std::ios::in);
@@ -51,8 +51,8 @@ void EvolutionHarness::evolve(bool continueFromFile)
 		int lastGen;
 		inFile >> lastGen;
 		printf("CONTINUE FROM GENERATION %d:\n",lastGen);
-		//FUNKER DETTE NÅ? Kan gjøres mer elegant senere ved å loade før man konstruerer GA
-		//det fungerer ikke 100%(?) men ihvertfall ser det ut som hovedessensen i genomene kommer med, og eliten føres videre
+		//FUNKER DETTE NÃ…? Kan gjÃ¸res mer elegant senere ved Ã¥ loade fÃ¸r man konstruerer GA
+		//det fungerer ikke 100%(?) men ihvertfall ser det ut som hovedessensen i genomene kommer med, og eliten fÃ¸res videre
 		GAPopulation pop=m_ga->population(); //get copy of population
 		for(int i=0;i<pop.size();i++) {
 			//pop.individual(i).read(inFile);
@@ -161,7 +161,7 @@ void EvolutionHarness::updateGraphicsAndPhysics(bool freeze)
 
 	if(g_visualize) {
 		if(glfwGetKey(GLFW_KEY_LCTRL)) 
-			renderDebugInfo(); //hvorfor kan ikke dette også rendres før fetchresults?
+			renderDebugInfo(); //hvorfor kan ikke dette ogsÃ¥ rendres fÃ¸r fetchresults?
 		glfwSwapBuffers(); //screen update  
 	}
 	else

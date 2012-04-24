@@ -37,7 +37,7 @@ MeshGraphicsObject* QuadroMachine::m_upperLegMesh=NULL;
 MeshGraphicsObject* QuadroMachine::m_lowerLegMesh=NULL;
 
 #define SC 1.0f //scale of robot dimensions - originally in cm, sc==0.01 -> physics units are [m]
-//nå går den litt gjennom bakken hvis den er for liten - er nødt til å stille inn noe i grafikk (depth buffer)?
+//nÃ¥ gÃ¥r den litt gjennom bakken hvis den er for liten - er nÃ¸dt til Ã¥ stille inn noe i grafikk (depth buffer)?
 
 //sjekk gjennom kode med p-kontroll
 //vurdere 6DOF
@@ -50,8 +50,8 @@ float outerYOffs=6.0f*SC;
 float innerZOffs=6.2f*SC;
 float outerZOffs=3.0f*SC;
 
-//gjøre om til meter
-//printe ut hvor langt den har gått (og hastighet)
+//gjÃ¸re om til meter
+//printe ut hvor langt den har gÃ¥tt (og hastighet)
 
 Part* QuadroMachine::createPCCore(NxActor* attachTo, NxMat34& transform, bool glue)
 {
@@ -350,7 +350,7 @@ float QuadroMachine::angleToServo(float angle)
 void QuadroMachine::playback(float simulationTime)
 {
 	//todo:
-	//FIX ANGLE CONVERSIONS! 1024 != +PI! servoen går ikke hele veien rundt. er det settings på dette?
+	//FIX ANGLE CONVERSIONS! 1024 != +PI! servoen gÃ¥r ikke hele veien rundt. er det settings pÃ¥ dette?
 	//- compare plots
 	//- simplify function
 	//- go through robot joint number definitions (compare to manual) and check with simulator. 
@@ -360,7 +360,7 @@ void QuadroMachine::playback(float simulationTime)
 	//  - the real robot always has 0 at straight legs, while the current sim robot has initial angle derived from min/max angles
 	//  - either change simulation scheme to always have "neutral" robot with initial angle always same, or just change values in default params 
 	//  - if staying with relative angles on robot, hard to read out results. better to have control-internal values which are converted to robot abs values
-	// fra jasons webside: Each motor may be commanded to an integer position from 0 to 1023, corresponding to an angular movement from -120° to 120°.
+	// fra jasons webside: Each motor may be commanded to an integer position from 0 to 1023, corresponding to an angular movement from -120Â° to 120Â°.
 	// ax12-dok sier 300 grader operating angle
 
 	//experimental:

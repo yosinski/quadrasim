@@ -146,8 +146,8 @@ void createRobot()
 		//somewhat hairy local transformation (relative to previous part)
 		NxMat34 localTransform;
 		localTransform.id();
-		//localTransform.t.set(2*rad+length+length*0.3f,-length/2+0.3f*length-2*rad,0); //disse verdiene må bare justeres senere
-		localTransform.t.set(2*rad+length+length*0.05f,-length/2+0.3f*length-2*rad,0); //disse verdiene må bare justeres senere
+		//localTransform.t.set(2*rad+length+length*0.3f,-length/2+0.3f*length-2*rad,0); //disse verdiene mÃ¥ bare justeres senere
+		localTransform.t.set(2*rad+length+length*0.05f,-length/2+0.3f*length-2*rad,0); //disse verdiene mÃ¥ bare justeres senere
 		NxMat33 xrot,zrot;
 		xrot.rotX(PI);
 		zrot.rotZ(-PI/2);
@@ -375,7 +375,7 @@ void updateGraphics()
 		glPopMatrix();
 	}
 
-	//må finne ut etterhvert hva som kan være hvor
+	//mÃ¥ finne ut etterhvert hva som kan vÃ¦re hvor
 	gScene->flushStream();
 	gScene->fetchResults(NX_RIGID_BODY_FINISHED, true);
 

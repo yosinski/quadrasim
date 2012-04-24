@@ -58,7 +58,7 @@ void createMuscleSetup2()
 	mus1=generateMuscle(NxVec3(xOffs,startHeight,0),height,1.5f,heightDivs,aroundDivs);
 	mus1->getNxCloth()->attachVertexToGlobalPosition(endPoint,NxVec3(xOffs,startHeight+height,0));
 	cube=createBoxPart(Point3D(xOffs,startHeight-cubeSize,0),Point3D(cubeSize,cubeSize,cubeSize));
-	cube->act->setMass(0.6f); //for tung last kan ødelegge..
+	cube->act->setMass(0.6f); //for tung last kan Ã¸delegge..
 	mus1->getNxCloth()->attachToShape(cube->act->getShapes()[0],NX_CLOTH_ATTACHMENT_TWOWAY);
 
 
@@ -69,7 +69,7 @@ void createMuscleSetup2()
 	endPoint=(heightDivs+1)*aroundDivs-1;
 	mus2->getNxCloth()->attachVertexToGlobalPosition(endPoint,NxVec3(xOffs,startHeight+height,0));
 	cube=createBoxPart(Point3D(xOffs,startHeight-cubeSize+0.1f,0),Point3D(cubeSize,cubeSize,cubeSize));
-	cube->act->setMass(0.6f); //for tung last kan ødelegge..
+	cube->act->setMass(0.6f); //for tung last kan Ã¸delegge..
 	mus2->getNxCloth()->attachToShape(cube->act->getShapes()[0],NX_CLOTH_ATTACHMENT_TWOWAY);
 
 	heightDivs=8;
@@ -79,7 +79,7 @@ void createMuscleSetup2()
 	endPoint=(heightDivs+1)*aroundDivs-1;
 	mus3->getNxCloth()->attachVertexToGlobalPosition(endPoint,NxVec3(xOffs,startHeight+height,0));
 	cube=createBoxPart(Point3D(xOffs,startHeight-cubeSize+0.1f,0),Point3D(cubeSize,cubeSize,cubeSize));
-	cube->act->setMass(0.6f); //for tung last kan ødelegge..
+	cube->act->setMass(0.6f); //for tung last kan Ã¸delegge..
 	mus3->getNxCloth()->attachToShape(cube->act->getShapes()[0],NX_CLOTH_ATTACHMENT_TWOWAY);
 }
 

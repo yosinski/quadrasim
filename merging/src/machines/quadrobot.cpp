@@ -186,8 +186,8 @@ void Quadrobot::parameterControl(float simulationTime)
 		float amplitude=m_params->getValue("amplitude",i);
 		float center=m_params->getValue("centerAngle",i);
 		float angularPos=center+envelope*amplitude*(angularRange/2.0f);
-		//må finne riktig pos for center
-		mapLinear(center,angleMin,angleMax); //nå er ikke center mellom 0..1 (-1 -> +1)
+		//mÃ¥ finne riktig pos for center
+		mapLinear(center,angleMin,angleMax); //nÃ¥ er ikke center mellom 0..1 (-1 -> +1)
 
 		//also check now if amplitude calculation is correct!
 

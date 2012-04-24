@@ -72,9 +72,9 @@ void initLSystem()
 	memset(ruleRanges,255,sizeof(ruleRanges));
 
 
-	//alle regler startes nå med 'S'
+	//alle regler startes nÃ¥ med 'S'
 
-	//litt kul, prøv forskjellige vinkler  (thomas fant ut at den var veldig kul!)
+	//litt kul, prÃ¸v forskjellige vinkler  (thomas fant ut at den var veldig kul!)
 /*	rules['A']="ypFypFypFypF";
 	rules['B']="A[BD[[AACrp]C]";
 	rules['C']="BBpCy BBD";
@@ -97,7 +97,7 @@ void initLSystem()
 	state.randRange=20;*/
 
 
-	//også kul, prøv forskjellige vinkler
+	//ogsÃ¥ kul, prÃ¸v forskjellige vinkler
 	/*rules['A']="ypFypFypFypF";
 	rules['B']="A[BD]AACrpC";
 	rules['C']="BBpCBBDFFFF";
@@ -398,7 +398,7 @@ void updateGraphics()
 
 
 
-	//må finne ut etterhvert hva som kan være hvor
+	//mÃ¥ finne ut etterhvert hva som kan vÃ¦re hvor
 	gScene->flushStream();
 	gScene->fetchResults(NX_RIGID_BODY_FINISHED, true);
 

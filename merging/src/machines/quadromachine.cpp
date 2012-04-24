@@ -22,7 +22,7 @@ MeshGraphicsObject* QuadroMachine::m_upperLegMesh=NULL;
 MeshGraphicsObject* QuadroMachine::m_lowerLegMesh=NULL;
 
 #define SC 1.0f //scale of robot dimensions - originally in cm, sc==0.01 -> physics units are [m]
-//nå går den litt gjennom bakken hvis den er for liten - er nødt til å stille inn noe i grafikk (depth buffer)?
+//nÃ¥ gÃ¥r den litt gjennom bakken hvis den er for liten - er nÃ¸dt til Ã¥ stille inn noe i grafikk (depth buffer)?
 
 //shape constants
 float hingeXOffs=-5.2f*SC;
@@ -228,7 +228,7 @@ QuadroMachine::QuadroMachine(QuadroParams* params/* =NULL */)
 
 	//trodde noen av joints var feil retning pga. flippede akser mm i debug render
 	//alt ok etter manuell testing. kan hende lokale akser byttes men fungerer allikevel.
-	//core joint [orientering min/maks] bør sjekkes mot hvordan roboten er satt opp.
+	//core joint [orientering min/maks] bÃ¸r sjekkes mot hvordan roboten er satt opp.
 
 	//New order, pc and battery parts were wrong wrt. leg order
 	Part* batteryPart=lastPart=createBatteryCore(NULL,createTfm(0,SC*40,0,0,0,PI/2),false); 

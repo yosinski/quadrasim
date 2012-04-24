@@ -77,7 +77,7 @@ void setupTestObjectScene()
 {
 	cleanUpTestObjects();
 	terminatePhysics();
-	initPhysics(); //hvor mye av dette må gjøres for reset??
+	initPhysics(); //hvor mye av dette mÃ¥ gjÃ¸res for reset??
 	frameCount=0;
 }
 
@@ -151,13 +151,13 @@ void testObjectLoop()
 				//if(quadroHW)
 				//	quadroHW->enableHWLogging(true);
 				
-				//todo: sjekke vekt av center part etter å ha forandret density
-				// - går det an å tilpasse større gravity?
-				// - det hjelper om flere iterations - nå 50
+				//todo: sjekke vekt av center part etter Ã¥ ha forandret density
+				// - gÃ¥r det an Ã¥ tilpasse stÃ¸rre gravity?
+				// - det hjelper om flere iterations - nÃ¥ 50
 				// - lese igjen om balanse i delers masse osv.
-				// - prøve å tilpasse deler, se hva som ble gjort i muskeloppsett
-				// - kanskje gjøre bein litt fyldigere
-				// - må også gjøre dette sammen med testing av virkelig robot
+				// - prÃ¸ve Ã¥ tilpasse deler, se hva som ble gjort i muskeloppsett
+				// - kanskje gjÃ¸re bein litt fyldigere
+				// - mÃ¥ ogsÃ¥ gjÃ¸re dette sammen med testing av virkelig robot
 				//todo: motor control implementation
 
 			}

@@ -33,7 +33,7 @@ struct X2CrawlerParams : public FloatParamMultiValList
 		setParams("decay",FloatParam(0.49f,0.4f,1.0f,6),numJoints);
 		setParams("p1",FloatParam(0.2f,0.0f,0.6f,6),numJoints);
 
-		//husk å ta vare på det asymmetriske slik at man kan komme tilbake til og kontrollere på denne måten igjen
+		//husk Ã¥ ta vare pÃ¥ det asymmetriske slik at man kan komme tilbake til og kontrollere pÃ¥ denne mÃ¥ten igjen
 		//params + control func
 	}
 

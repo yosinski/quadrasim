@@ -11,7 +11,7 @@
 #include <ga/std_stream.h>
 #define cout STD_COUT
 
-//burde lage egen createMuscle her så ikke avhengig av testobjects
+//burde lage egen createMuscle her sÃ¥ ikke avhengig av testobjects
 //se evoleg
 
 //ha bit precision i tankene
@@ -80,7 +80,7 @@ float calculateMuscleFitness(GAGenome& g)
 
 		if(visualize) {
 			if(glfwGetKey(GLFW_KEY_LCTRL)) 
-				renderDebugInfo(); //hvorfor kan ikke dette også rendres før fetchresults?
+				renderDebugInfo(); //hvorfor kan ikke dette ogsÃ¥ rendres fÃ¸r fetchresults?
 
 			glfwSwapBuffers(); //screen update  
 		}
@@ -181,8 +181,8 @@ void MuscleEvolutionHarness::setupMuscle(MuscleParams& params)
 	evoMuscle->getNxCloth()->attachVertexToGlobalPosition(endPoint,NxVec3(xOffs,startHeight+params.height,0));
 	hangingBox=createBoxPart(Point3D(xOffs,startHeight-cubeSize,0),Point3D(cubeSize,cubeSize,cubeSize));
 	(hangingBox);
-	//hangingBox->physicsEquivalent->setMass(0.6f); //for tung last kan ødelegge..
-	hangingBox->physicsEquivalent->setMass(0.8f); //for tung last kan ødelegge..
+	//hangingBox->physicsEquivalent->setMass(0.6f); //for tung last kan Ã¸delegge..
+	hangingBox->physicsEquivalent->setMass(0.8f); //for tung last kan Ã¸delegge..
 	evoMuscle->getNxCloth()->attachToShape(hangingBox->physicsEquivalent->getShapes()[0],NX_CLOTH_ATTACHMENT_TWOWAY);
 
 	attachTopPos=evoMuscle->getNxCloth()->getVertexAttachmentPosition(endPoint);

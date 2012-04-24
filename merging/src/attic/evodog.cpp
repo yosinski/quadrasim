@@ -10,7 +10,7 @@
 #include <ga/std_stream.h>
 #define cout STD_COUT
 
-//todo: vurder om dette også burde vært inkludert i dogmachine for å få færre filer
+//todo: vurder om dette ogsÃ¥ burde vÃ¦rt inkludert i dogmachine for Ã¥ fÃ¥ fÃ¦rre filer
 
 float calculateDogFitness(GAGenome& g)
 {
@@ -99,7 +99,7 @@ DogEvolutionHarness::DogEvolutionHarness(int seed)
 	//mapping of bits to decimals
 	GABin2DecPhenotype mapping;
 	DogParams p; //initializes min/max values
-	//må ha iterator..
+	//mÃ¥ ha iterator..
 	std::map<std::string, FloatParam>::iterator it;
 	for(it=p.paramList.begin(); it!=p.paramList.end(); it++) {
 		mapping.add(8, it->second.minVal, it->second.maxVal); //8b precision

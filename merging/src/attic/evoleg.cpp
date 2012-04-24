@@ -207,7 +207,7 @@ float calculateLegFitness(GAGenome& g)
 
 		if(visualize) {
 			if(glfwGetKey(GLFW_KEY_LCTRL)) 
-				renderDebugInfo(); //hvorfor kan ikke dette også rendres før fetchresults?
+				renderDebugInfo(); //hvorfor kan ikke dette ogsÃ¥ rendres fÃ¸r fetchresults?
 
 			glfwSwapBuffers(); //screen update  
 		}

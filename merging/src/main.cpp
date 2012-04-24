@@ -11,17 +11,17 @@
 
 //-shader or similar eyecandy
 //-fix normals?
-//-save elite history  (kult å kunne lage video av elitehistorie)
-//legg til slik at når man velger en maskin i testobjects får man peker til en modul som followcam kan følge
-//  sånn at man kan vise fram maskinen med followcam
-// -> kanskje forbedre dette: gi tilbake 2 vektorer fra en maskin (slik at follow kan være tilpsset hver enkelt maskin)?? 
-// da slipper man også å "dele ut" parts
-//kunne være interessant å ha params som ikke er evolverbare men allikevel params
+//-save elite history  (kult Ã¥ kunne lage video av elitehistorie)
+//legg til slik at nÃ¥r man velger en maskin i testobjects fÃ¥r man peker til en modul som followcam kan fÃ¸lge
+//  sÃ¥nn at man kan vise fram maskinen med followcam
+// -> kanskje forbedre dette: gi tilbake 2 vektorer fra en maskin (slik at follow kan vÃ¦re tilpsset hver enkelt maskin)?? 
+// da slipper man ogsÃ¥ Ã¥ "dele ut" parts
+//kunne vÃ¦re interessant Ã¥ ha params som ikke er evolverbare men allikevel params
 //for cleanup: remove point3d and only use vec3 or nxvec3
-//lage global default material så man slipper shaderkode rundt om kring i objects
-//bedre rendering (shader) på cloth
+//lage global default material sÃ¥ man slipper shaderkode rundt om kring i objects
+//bedre rendering (shader) pÃ¥ cloth
 //sette farge til shader!
-//grafikkting i evolutionharness må ikke være duplikat av kode fra graphics/testobjects... kapsle inn og putte i graphics
+//grafikkting i evolutionharness mÃ¥ ikke vÃ¦re duplikat av kode fra graphics/testobjects... kapsle inn og putte i graphics
 
 
 
