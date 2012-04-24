@@ -8,7 +8,7 @@ MyCloth* generateMuscle(NxVec3& pos, float height,float radius,int heightDivs,in
 
 void setupTestObjectScene();
 void testObjectLoop();
-void quadroLoop(const std::string &controlFileName, const std::string &logFileName,bool loop=true);
+void quadroLoop(const std::string &controlFileName, const std::string &logFileName,bool loop=true,bool useRealRobot=false);
 
 
 #endif

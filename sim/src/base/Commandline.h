@@ -7,6 +7,7 @@
 struct CommandLine {
 	bool noGUI; // -n option
 	bool loopPlayback; // -l option
+	bool useHardware; // -h option
 	std::string inFileName; // -i option
 	std::string outFileName; // -o option
 	 

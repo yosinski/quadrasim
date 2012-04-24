@@ -12,14 +12,16 @@ CommandLine::CommandLine()
 {
 	noGUI=false;
 	loopPlayback=false;
+	useHardware=false;
 }
 
 void CommandLine::printUsage() 
 {
 	fprintf(stderr, "QuadraTot simulator usage\n");
-	fprintf(stderr, "Arguments: [-i InputFile -o OutputFile -n -l]\n");
+	fprintf(stderr, "Arguments: [-i InputFile -o OutputFile -n -l -h]\n");
 	fprintf(stderr, "\tn: No GUI\n");
 	fprintf(stderr, "\tl: loop playback of control file\n");
+	fprintf(stderr, "\th: playback also on robot\n");
 	fprintf(stderr, "\tInputFile: Control file name\n");
 	fprintf(stderr, "\tOutputFile: Output log file name\n");
 }
@@ -33,7 +35,7 @@ void CommandLine::parse(int argc, char *argv[])
 	char *inFile = NULL;
 	char *outFile = NULL;
 
-	while ((c = getopt(argc, argv, "i:o:nl")) != -1) {
+	while ((c = getopt(argc, argv, "i:o:nlh")) != -1) {
 		switch (c) {
 		case 'i':
 			inFile = optarg;
@@ -46,6 +48,9 @@ void CommandLine::parse(int argc, char *argv[])
 			break;
 		case 'l':
 			loopPlayback=true;
+			break;
+		case 'h':
+			useHardware=true;
 			break;
 		case ':':   // arguments which require an argument but have none
 			fprintf(stderr, "Option -%c requires an argument\n", optopt);
@@ -75,6 +80,7 @@ void CommandLine::printArguments()
 {
 	printf("display mode: %s\n", noGUI ? "console" : "visualize");
 	printf("loop playback: %s\n", loopPlayback ? "yes" : "no");
+	printf("playback on robot hardware: %s\n", useHardware ? "yes" : "no");
 	if(!inFileName.empty())
 		printf("using control commands from %s\n",inFileName.c_str());
 	if(!outFileName.empty())
