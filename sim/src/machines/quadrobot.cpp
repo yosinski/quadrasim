@@ -158,6 +158,7 @@ float Quadrobot::calcSinEnvelopeFromParams(float attackDuration,float p0Duration
 	return sineEnvelope(remainder,t0,t1,t2,t3)*2-1;
 };
 
+/*
 void Quadrobot::parameterControl(float simulationTime)
 {
 	int i=0;
@@ -174,15 +175,62 @@ void Quadrobot::parameterControl(float simulationTime)
 
 		float envelope=calcSinEnvelopeFromParams(attackTime,p0Time,decayTime,p1Time,freq*simulationTime,phase);
 
-		/*//map to parameter range
-		float limLow=m_params->getValue("limLow",i);
-		float limHigh=m_params->getValue("limHigh",i);
-		if(limLow>limHigh) { //now evolution allows the parameters to overlap - swap if they do
-			float temp=limHigh;
-			limHigh=limLow;
-			limLow=temp;
-		}
-		angularPos=mapLinear(angularPos,limLow,limHigh);*/
+		////map to parameter range
+		//float limLow=m_params->getValue("limLow",i);
+		//float limHigh=m_params->getValue("limHigh",i);
+		//if(limLow>limHigh) { //now evolution allows the parameters to overlap - swap if they do
+		//	float temp=limHigh;
+		//	limHigh=limLow;
+		//	limLow=temp;
+		//}
+		//angularPos=mapLinear(angularPos,limLow,limHigh);
+
+		float angleMin=m_jointLimitAngles[i].first;
+		float angleMax=m_jointLimitAngles[i].second;
+		float angularRange=angleMax-angleMin;
+		float amplitude=m_params->getValue("amplitude",i);
+		float center=m_params->getValue("centerAngle",i);
+		float angularPos=center+envelope*amplitude*(angularRange/2.0f);
+		//må finne riktig pos for center
+		mapLinear(center,angleMin,angleMax); //nå er ikke center mellom 0..1 (-1 -> +1)
+
+		//also check now if amplitude calculation is correct!
+
+		setJointTarget(i,angularPos);
+	}
+}*/
+
+void Quadrobot::parameterControl(float simulationTime)
+{
+	int i=0;
+	for(int i=0;i<NUM_JOINTS;i++) {
+		//float freq=0.25f; //think about where to control this, maybe only in simulated version?
+		//float freq=0.5f; //think about where to control this, maybe only in simulated version?
+		float freq=1.0f; //think about where to control this, maybe only in simulated version?
+		//float freq=1.5f; //think about where to control this, maybe only in simulated version?
+		
+		float phase=m_params->getValue("phase",i); //could also have accumulated phase.. more interesting for other machines?
+		
+		//EXPERI
+		/*float attackTime=m_params->getValue("attack",i);
+		float p0Time=m_params->getValue("p0",i);
+		float decayTime=m_params->getValue("decay",i);
+		float p1Time=m_params->getValue("p1",i);
+		*/
+
+		//EXPERIMENTAL!
+		//float envelope=calcSinEnvelopeFromParams(attackTime,p0Time,decayTime,p1Time,freq*simulationTime,phase);
+		float envelope = sin((freq*simulationTime+phase)*2*PI);
+
+		////map to parameter range
+		//float limLow=m_params->getValue("limLow",i);
+		//float limHigh=m_params->getValue("limHigh",i);
+		//if(limLow>limHigh) { //now evolution allows the parameters to overlap - swap if they do
+		//	float temp=limHigh;
+		//	limHigh=limLow;
+		//	limLow=temp;
+		//}
+		//angularPos=mapLinear(angularPos,limLow,limHigh);
 
 		float angleMin=m_jointLimitAngles[i].first;
 		float angleMax=m_jointLimitAngles[i].second;
@@ -198,6 +246,7 @@ void Quadrobot::parameterControl(float simulationTime)
 		setJointTarget(i,angularPos);
 	}
 }
+
 
 void Quadrobot::updateControl(float time)
 {

@@ -18,9 +18,8 @@ struct PositionKey
 };
 
 
-
 //////////////////////////////////////////////////////////////////////////
-
+/*
 struct QuadroParams : public FloatParamMultiValList
 {
 	//these are constant parameters, not to be evolved
@@ -54,14 +53,6 @@ struct QuadroParams : public FloatParamMultiValList
 		addParam("centerAngle",FloatParam(0.0f,-0.2f,0.2f));
 		addParam("amplitude",FloatParam(0.0f,0.0f,0.3f,6));
 
-		/*//now: setting joint movement as -1 to +1 range for init angle and 0..1 for amplitude
-		setParams("centerAngle",FloatParam(-0.1f,-0.5f,0.3f,6),numJoints-1);
-		setParams("amplitude",FloatParam(0.2f,0.05f,0.25f,6),numJoints-1);
-		//center joint
-		addParam("centerAngle",FloatParam(0.0f,-0.2f,0.2f));
-		addParam("amplitude",FloatParam(0.2f,0.0f,0.3f,6));
-		*/
-
 
 		//leg joints
 		//now setting some crazy phases
@@ -74,7 +65,6 @@ struct QuadroParams : public FloatParamMultiValList
 		addParam("phase",FloatParam(0.6f,0,1,6));
 		addParam("phase",FloatParam(0.7f,0,1,6));
 		addParam("phase",FloatParam(0.8f,0,1,6));
-
 
 		//check how phase works - does it make sense to limit from 0 to 1?
 		//setParams("phase",FloatParam(0.3f,0,1),numJoints-1);
@@ -90,6 +80,73 @@ struct QuadroParams : public FloatParamMultiValList
 		addParam("decay",FloatParam(0.5f,0.3f,0.7f,4));
 		addParam("p1",FloatParam(0.2f,0,0.3f,4));
 
+	}
+};
+
+*/
+
+
+//////////////////////////////////////////////////////////////////////////
+
+struct QuadroParams : public FloatParamMultiValList
+{
+	//these are constant parameters, not to be evolved
+	int numJoints;
+
+	QuadroParams::QuadroParams() {
+		numJoints=NUM_JOINTS;
+		//nå: limlow/high er -1..1, blir oversatt til -PI..PI
+		//can introduce fewer parameters later by exploiting symmetry
+		//NOTE! now there is no checking of combinations of joint angles resulting in invalid/HAZARDOUS configurations (e.g. both inner and outer joints are min)
+
+		//remember if changing these all earlier results will be invalidated
+
+		int phaseBits=8;
+		int ampBits=6;
+		int angleBits=7;
+		float innerMax=0.8f;
+		float innerMin=-0.2f;
+		float innerAmp=0.4f;
+		float outerMin=-0.8f;
+		float outerMax=0.1f;
+		float outerAmp=0.4f;
+
+		//now: setting joint movement as -1 to +1 range for init angle and 0..1 for amplitude
+		addParam("centerAngle",FloatParam(0.5f,innerMin,innerMax,angleBits)); //inner
+		addParam("amplitude",FloatParam(0.1f,0.05f,innerAmp,ampBits));
+		addParam("centerAngle",FloatParam(-0.1f,outerMin,outerMax,angleBits)); //outer
+		addParam("amplitude",FloatParam(0.3f,0.05f,outerAmp,ampBits));
+
+		addParam("centerAngle",FloatParam(0.5f,innerMin,innerMax,angleBits)); //inner
+		addParam("amplitude",FloatParam(0.1f,0.05f,innerAmp,ampBits));
+		addParam("centerAngle",FloatParam(-0.1f,outerMin,outerMax,angleBits)); //outer
+		addParam("amplitude",FloatParam(0.3f,0.05f,outerAmp,ampBits));
+
+		addParam("centerAngle",FloatParam(0.5f,innerMin,innerMax,angleBits)); //inner
+		addParam("amplitude",FloatParam(0.1f,0.05f,innerAmp,ampBits));
+		addParam("centerAngle",FloatParam(-0.1f,outerMin,outerMax,angleBits)); //outer
+		addParam("amplitude",FloatParam(0.3f,0.05f,outerAmp,ampBits));
+
+		addParam("centerAngle",FloatParam(0.5f,innerMin,innerMax,angleBits)); //inner
+		addParam("amplitude",FloatParam(0.1f,0.05f,innerAmp,ampBits));
+		addParam("centerAngle",FloatParam(-0.1f,outerMin,outerMax,angleBits)); //outer
+		addParam("amplitude",FloatParam(0.3f,0.05f,outerAmp,ampBits));
+
+		//center joint
+		addParam("centerAngle",FloatParam(0.0f,-0.2f,0.2f));
+		addParam("amplitude",FloatParam(0.0f,0.0f,0.3f,6));
+
+		//leg joints
+		//now setting some crazy phases
+		addParam("phase",FloatParam(0.0f,0,1,phaseBits));
+		addParam("phase",FloatParam(0.1f,0,1,phaseBits));
+		addParam("phase",FloatParam(0.2f,0,1,phaseBits));
+		addParam("phase",FloatParam(0.3f,0,1,phaseBits));
+		addParam("phase",FloatParam(0.4f,0,1,phaseBits));
+		addParam("phase",FloatParam(0.5f,0,1,phaseBits));
+		addParam("phase",FloatParam(0.6f,0,1,phaseBits));
+		addParam("phase",FloatParam(0.7f,0,1,phaseBits));
+		addParam("phase",FloatParam(0.8f,0,1,phaseBits));
 	}
 };
 

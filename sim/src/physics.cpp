@@ -94,18 +94,18 @@ void initPhysics()
 
 	// Set default material
 	NxMaterial* defaultMaterial = gScene->getMaterialFromIndex(0);
-	//defaultMaterial->setRestitution(0.0f);
+	defaultMaterial->setRestitution(0.0f);
+
 	//defaultMaterial->setStaticFriction(0.5f); //orig. quadro - but static is set up to dynamic
 	//defaultMaterial->setDynamicFriction(1.0f);
 
-	defaultMaterial->setRestitution(0.0f);
-	defaultMaterial->setStaticFriction(0.4f); //orig. quadro - but static is set up to dynamic
-	defaultMaterial->setDynamicFriction(0.4f);
-	//extended parameters for anisotropic friction
-	/*defaultMaterial->setDynamicFrictionV(0.2f);
-	defaultMaterial->setStaticFrictionV(0.2f);
-	defaultMaterial->setDirOfAnisotropy(NxVec3(1,0,0));
-	defaultMaterial->setFlags(NX_MF_ANISOTROPIC);*/
+	//these were tuned values from initial evo runs, seem to make it possible to slide with high speedss
+	//defaultMaterial->setStaticFriction(0.4f); 
+	//defaultMaterial->setDynamicFriction(0.4f);
+
+	//try something in between to have better behaviors
+	defaultMaterial->setStaticFriction(0.9f); 
+	defaultMaterial->setDynamicFriction(0.9f);
 
 
 	//trigger callback
@@ -116,7 +116,8 @@ void initPhysics()
 
 	NxActorDesc actorDesc;
 	actorDesc.shapes.pushBack(&planeDesc);
-	gScene->createActor(actorDesc);
+	NxActor* ground=gScene->createActor(actorDesc);
+	//ground->setSolverIterationCount(200); //would this help?
 }
 
 

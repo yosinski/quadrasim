@@ -42,12 +42,12 @@ int main(int argc, char *argv[])
 	initRendering();
 	
 
-	/*
+	//*
 	QuadroEvolutionHarness quadroEvo(42);
 	quadroEvo.evolve(false);
 	quadroEvo.printStatistics();
 	/*/
-	quadroLoop(cmdLineArgs.inFileName,cmdLineArgs.outFileName,cmdLineArgs.loopPlayback);
+	quadroLoop(cmdLineArgs.inFileName,cmdLineArgs.outFileName,cmdLineArgs.loopPlayback,cmdLineArgs.useHardware);
 	//*/
 
 	terminateGraphics();

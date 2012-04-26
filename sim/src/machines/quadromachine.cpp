@@ -161,10 +161,12 @@ Part* QuadroMachine::createLowerLeg(NxActor* attachTo, NxMat34& transform, bool 
 	//anisotropic friction material
 	NxMaterialDesc  material;
 	material.restitution        = 0.0f;
-	material.staticFriction     = 0.1f;
-	material.dynamicFriction    = 0.1f; 
-	material.dynamicFrictionV   = 0.8f;
-	material.staticFrictionV    = 0.8f;
+	//material.staticFriction     = 0.1f;
+	//material.dynamicFriction    = 0.1f; 
+	material.staticFriction     = 0.5f;
+	material.dynamicFriction    = 0.5f; 
+	material.dynamicFrictionV   = 1.0f;
+	material.staticFrictionV    = 1.0f;
 	material.dirOfAnisotropy.set(0,0,1);
 	material.flags              = NX_MF_ANISOTROPIC;
 	NxMaterial *anisoMaterial = gScene->createMaterial(material);

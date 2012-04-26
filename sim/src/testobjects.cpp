@@ -96,6 +96,16 @@ void addTestMachine(Machine *m)
 	followPart=m->getCentralPart();
 }
 
+void initRealRobot()
+{
+	quadroHW=new QuadroHardware();
+	if(!quadroHW)
+		systemError("could not init robot hardware");
+	//should have some checking to see if the servos have been inited, since this is unstable
+	enableRealRobot=true;
+	glfwSwapInterval(1); //setting time to "real" time
+
+}
 
 
 void quadroLoop(const std::string &controlFileName, const std::string &logFileName, bool loop,bool useRealRobot)
@@ -121,12 +131,7 @@ void quadroLoop(const std::string &controlFileName, const std::string &logFileNa
 		animateJoints=true;
 
 		if(useRealRobot) {
-			quadroHW=new QuadroHardware();
-			if(!quadroHW)
-				systemError("could not init robot hardware");
-			//should have some checking to see if the servos have been inited, since this is unstable
-			enableRealRobot=true;
-			glfwSwapInterval(1); //setting time to "real" time
+			initRealRobot();
 			quadroHW->init(p);
 			quadroHW->loadPlaybackFile(controlFileName.c_str(),loop);
 			quadroHW->enableHWLogging(true);
@@ -153,22 +158,25 @@ void quadroLoop(const std::string &controlFileName, const std::string &logFileNa
 				QuadroMachine* m=new QuadroMachine(p);
 				gScene->setGravity(NxVec3(0,-9.81*100.0,0));
 				simTimeStep=QUADRO_TIMESTEP;
-				//if(quadroHW) quadroHW->init(p);
+				if(quadroHW) quadroHW->init(p);
 				if(glfwGetKey(GLFW_KEY_RALT)) {
-					char* playbackFileName="example_log_1.txt";
-					//m->loadPlaybackFile(playbackFileName);
-					m->loadPlaybackFile("cmd_fixed_positions.txt");
+					char* playbackFileName="cmd_fixed_positions.txt";
+					m->loadPlaybackFile(playbackFileName);
 					if(quadroHW)
 						quadroHW->loadPlaybackFile(playbackFileName);
 				}
 				addTestMachine(m);
 				quadMachine=m;
-				//m->enableControlLogging(true);
-				//m->enableSimLogging(true);
-				//if(quadroHW)
-				//	quadroHW->enableHWLogging(true);
+				m->enableControlLogging(true);
+				m->enableSimLogging(true);
+				if(quadroHW)
+					quadroHW->enableHWLogging(true);
 
 			}
+			if(glfwGetKey(GLFW_KEY_LCTRL) && glfwGetKey(GLFW_KEY_RALT)) {
+				initRealRobot();
+			}
+
 			if(glfwGetKey(GLFW_KEY_F2)) setupTestObjectScene(); //this takes time, could consider cleaning up only objects
 			if(glfwGetKey(GLFW_KEY_F3)) animateJoints=!animateJoints;
 

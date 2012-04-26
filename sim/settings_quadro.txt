@@ -8,9 +8,9 @@
 # data modified by the first (the parameters are applied in the order they 
 # are listed).
 
-population_size		16
+population_size		60
 crossover_probability	0.2
-mutation_probability	0.0032
+mutation_probability	0.006
 #mutation_probability	0.004
 score_filename		log_generations.txt
 score_frequency		1
