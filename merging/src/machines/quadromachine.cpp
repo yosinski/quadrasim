@@ -12,6 +12,8 @@
 #include "../base/system.h"
 #include "../graphics/graphics.h"
 #include <boost/foreach.hpp>
+#include <iostream>
+using namespace std;
 
 #define PRINT_STATS 1 //for printing controller and position stats
 #define PRINT_INTERVAL 0.1 //seconds between each log line
@@ -295,12 +297,15 @@ void QuadroMachine::update(float simulationTime)
 
 	updateControl(simulationTime);
 
+	cout << "update!" << endl;
+
 	if(logSim && simLogFile) fprintf(simLogFile,"%.3f ",simulationTime); 
 
 	unsigned i=0;
+
 	BOOST_FOREACH(NxRevoluteJoint* j, m_robJoints) {
 		float angularPos=m_jointTargets[i];
-
+		cout << "foreachloop" << endl;
 		//check limits here or elsewhere?
 		NxJointLimitPairDesc lims;
 		j->getLimits(lims);
@@ -319,6 +324,7 @@ void QuadroMachine::update(float simulationTime)
 		NxVec3 pos=getPosition();
 		fprintf(simLogFile,"%.2f %.2f %.2f",pos.x,pos.y,pos.z); //log actual position (in servo coordinates)
 		fprintf(simLogFile,"\n",simulationTime); 
+		//int vectorend;
 		/*float dist=(pos-NxVec3(0,0,0)).magnitude(); //assuming it started in 0,0,0
 		float speed=dist/simulationTime;
 		printf("time: %.2f distance from 0: %.2f speed: %.2f\n",simulationTime,dist,speed);*/
@@ -427,6 +433,9 @@ void QuadroMachine::enableSimLogging(bool enable, const std::string logFileName/
 	{
 	//later: add option for logging on specific frames - auto-swith off ?
 	//std::string logFileName="log_sim.txt";
+
+
+
 	logSim=enable;
 	if(simLogFile==NULL) {
 		printf("opening log file %s for writing\n",logFileName.c_str());

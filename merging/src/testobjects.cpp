@@ -7,11 +7,13 @@
 #include "machines/machine.h"
 #include <iostream>
 #include <boost/foreach.hpp>
+#include <math.h>
+using namespace std;
 
 //various machines for testing
-#include "machines/quadrobot.h"
 #include "machines/quadromachine.h"
 #include "hardware/quadrohardware.h"
+#include "machines/quadrobot.h"
 
 bool enableRealRobot=false;
 QuadroHardware* quadroHW=NULL;
@@ -99,8 +101,6 @@ void addTestMachine(Machine *m)
 	followPart=m->getCentralPart();
 }
 
-
-
 void quadroLoop(const std::string &controlFileName, const std::string &logFileName, bool loop)
 {
 	setupTestObjectScene();
@@ -118,7 +118,6 @@ void quadroLoop(const std::string &controlFileName, const std::string &logFileNa
 		//	quadroHW->loadPlaybackFile(playbackFileName);
 		//if(quadroHW)
 		//	quadroHW->enableHWLogging(true);
-		//m->loadPlaybackFile(controlFileName.c_str(),loop);   // [SL] Disabled for now!
 		m->loadPlaybackFile(controlFileName.c_str());
 		addTestMachine(m);
 		quadMachine=m;
@@ -130,9 +129,18 @@ void quadroLoop(const std::string &controlFileName, const std::string &logFileNa
 		animateJoints=true;
 	}
 
-
-	while( running )
+	int iter;
+	iter = 0;
+	//while( running )
+	//for(ttt=1;ttt<=1;ttt++)
+	//std::vector<PositionKey> m_positions; //storing prerecorded positions
+	//int sizeVector;
+	//sizeVector = m_positions.size();
+	//cout << "m_positions = " << m_positions[sizeVector-1].t << endl;
+	while (running)
 	{
+		iter++;
+		cout << "testobjects quadroloop" << endl;
 		updateFPS();
 		updateWindowSize();
 		if(glfwGetKey(GLFW_KEY_TAB) && imgRecorder==NULL) {
@@ -194,11 +202,16 @@ void quadroLoop(const std::string &controlFileName, const std::string &logFileNa
 			imgRecorder->update();
 
 		running = !glfwGetKey( GLFW_KEY_ESC ) && glfwGetWindowParam( GLFW_OPENED );
-
+		//cout << "running = " << running << endl;
 		//make some better logic for this later
 		if(quadMachine && !controlFileName.empty() && quadMachine->playingBack==false)
 			running=false;
-
+		//cout << "running2 = " << running << endl;
+		//cout << " playingBack =  " << quadMachine->playingBack << endl;
+		//cout << "quadMachine = " << quadMachine << endl;
+		//cout << "controlFileName.empty() = " << !controlFileName.empty() << endl;
+		//if(ceil (m_positions[sizeVector-1].t*60 ) < iter )
+			//running = false;
 	}
 }
 

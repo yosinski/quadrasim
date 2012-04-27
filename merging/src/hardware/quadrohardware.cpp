@@ -1,6 +1,8 @@
 #include "quadrohardware.h"
+//#include <iostream>
+//#include "axservo.h"
+using namespace std;
 
-#include "axservo.h"
 
 
 
@@ -21,6 +23,8 @@ QuadroHardware::~QuadroHardware()
 
 void QuadroHardware::update(float time)
 {
+	//cout << "TESTINGTESTING\n";
+
 	updateControl(time);
 
 	if(logHW && hwLogFile) fprintf(hwLogFile,"%.3f ",time); 

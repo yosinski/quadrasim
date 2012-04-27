@@ -106,8 +106,8 @@ public:
 	void init(QuadroParams* params =NULL );
 
 	//QuadroMachine(QuadroParams* params=NULL);
-	//void loadPlaybackFile(const char* fileName, bool loopPlayback=true);
-	void loadPlaybackFile(const char* fileName);
+	void loadPlaybackFile(const char* fileName, bool loopPlayback=false);
+	//void loadPlaybackFile(const char* fileName);
 	void setJointTarget(unsigned jointNumber,float angle);
 	float getJointTarget(unsigned jointNumber);
 	int controlMode;

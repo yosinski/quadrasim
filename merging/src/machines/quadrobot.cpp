@@ -5,6 +5,10 @@
 #include "../base/system.h"
 #include "../base/tools.h"
 #include <math.h>
+#include <iostream>
+#include <vector>
+using namespace std;
+
 
 //move to tools later
 //add arbitrary src range
@@ -28,7 +32,7 @@ float angleToServo(float angle)
 }
 
 
-void Quadrobot::loadPlaybackFile(const char* fileName)
+void Quadrobot::loadPlaybackFile(const char* fileName, bool loopPlayback/* =true */)
 {
 	std::ifstream inFile(fileName,std::ios::in);
 	if(!inFile.good()) 
@@ -60,9 +64,11 @@ void Quadrobot::loadPlaybackFile(const char* fileName)
 	}
 	printf("read %d position keys\n",m_positions.size());
 	controlMode=PLAYBACK_CONTROL;
-	m_loopPlayback=true;
+	m_loopPlayback=loopPlayback;
+	playingBack=true;
 	printf("machine in playback mode\n");
 }
+
 
 void Quadrobot::playbackControl(float simulationTime)
 {
@@ -80,8 +86,11 @@ void Quadrobot::playbackControl(float simulationTime)
 	simulationTime*=timeScale;
 	//we could instead speed up the simulated motor, check which parameters are ok for this. p const, max speed or max force?
 
-	if(m_loopPlayback)
-		simulationTime=fmodf(simulationTime,m_positions.back().t);
+    if(m_loopPlayback)
+        simulationTime=fmodf(simulationTime,m_positions.back().t);
+
+    if(!m_loopPlayback && simulationTime > m_positions.back().t)
+        playingBack=false;
 
 	//get current and next position key
 	PositionKey p0,p1;
