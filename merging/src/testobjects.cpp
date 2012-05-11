@@ -140,7 +140,6 @@ void quadroLoop(const std::string &controlFileName, const std::string &logFileNa
 	while (running)
 	{
 		iter++;
-		cout << "testobjects quadroloop" << endl;
 		updateFPS();
 		updateWindowSize();
 		if(glfwGetKey(GLFW_KEY_TAB) && imgRecorder==NULL) {
