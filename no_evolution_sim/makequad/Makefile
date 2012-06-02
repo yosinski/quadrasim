@@ -2,10 +2,11 @@
 CC = g++
 PREPROCESSOR = -DLINUX -DNX32 -DCORELIB -DNX_DISABLE_FLUIDS
 physXPath = $(shell ls -d  /usr/include/PhysX/v*)
+physXLibPath = $(shell ls -d /usr/lib/PhysX/v*)
 INCLUDES = -I. -Ibase -Igraphics -Ihardware -Imachines -Iphysx -I/usr/include/boost -I$(physXPath)/SDKs/Physics/include -I$(physXPath)/LowLevel/API/include -I$(physXPath)/LowLevel/hlcommon/include -I$(physXPath)/SDKs/Cooking/include -I$(physXPath)/SDKs/PhysXLoader/include -I$(physXPath)/SDKs/Foundation/include -I$(physXPath)/SDKs/NxCharacter/include
 CPPFLAGS= $(PREPROCESSOR) $(INCLUDES) -Wall
 
-LDIR = -L/usr/lib/PhysX/v2.8.1
+LDIR = -L$(physXLibPath)
 LIBS = -ldl -ldxl -lNxCharacter -lNxCooking -lPhysXCore -lGLEW -lCgGL -lCg -lPhysXLoader -lGLU -lGL -lglut -lglfw -ljpeg -lga -lpthread
 
 OBJ = main.o part.o physics.o testobjects.o base/Commandline.o base/floatparammultivallist.o base/system.o base/Vec3.o base/floatparamlist.o base/kmath.o base/tools.o base/Wingetopt.o graphics/DebugRenderer.o graphics/GraphicsObject.o graphics/Overlay.o graphics/Vertex.o graphics/fbo.o graphics/material.o graphics/shaders.o graphics/graphics.o graphics/MeshGraphicsObject.o graphics/Texture.o hardware/axservo.o hardware/mocap.o hardware/quadrohardware.o machines/quadromachine.o machines/quadrobot.o physx/cooking.o physx/MyCloth.o physx/Stream.o physx/VertexWelder.o physx/wavefront.o
@@ -23,4 +24,3 @@ quadmake: $(OBJ)
 
 clean:
 	rm -f $(OBJ) quadmake
-
