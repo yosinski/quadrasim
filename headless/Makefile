@@ -7,7 +7,7 @@ INCLUDES = -I. -Ibase -Ihardware -Imachines -Iphysx -I/usr/include/boost -I$(phy
 CPPFLAGS= $(PREPROCESSOR) $(INCLUDES) -Wall
 
 LDIR = -L$(physXLibPath) -L/home/sean/Downloads/dyna/DXL_SDK_LINUX_v1_01/src
-LIBS = -ldl -ldxl -lNxCharacter -lNxCooking -lPhysXCore -lPhysXLoader -ljpeg -lpthread #-lGLEW -lCgGL -lCg -lGL -lglut -lglfw
+LIBS = -ldl -ldxl -lNxCharacter -lNxCooking -lPhysXCore -lPhysXLoader -ljpeg -lpthread
 
 OBJ = main.o part.o physics.o testobjects.o base/Commandline.o base/floatparammultivallist.o base/Vec3.o base/floatparamlist.o base/kmath.o base/tools.o base/Wingetopt.o hardware/axservo.o hardware/mocap.o hardware/quadrohardware.o machines/quadromachine.o machines/quadrobot.o physx/cooking.o physx/Stream.o physx/VertexWelder.o physx/wavefront.o
 
