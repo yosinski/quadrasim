@@ -114,6 +114,7 @@ public:
 	bool playingBack;
 
 	void updateControl(float time);
+    float diagAngleThresh;
 	
 	void enableControlLogging(bool enable);
 	//void setLogInterval(float time);

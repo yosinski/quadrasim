@@ -166,7 +166,6 @@ float Quadrobot::calcSinEnvelopeFromParams(float attackDuration,float p0Duration
 
 void Quadrobot::parameterControl(float simulationTime)
 {
-	int i=0;
 	for(int i=0;i<NUM_JOINTS;i++) {
 		//float freq=0.05f;
 		float freq=0.5f; //think about where to control this, maybe only in simulated version?
@@ -206,54 +205,73 @@ void Quadrobot::parameterControl(float simulationTime)
 }
 
 void Quadrobot::updateControl(float time)
-{
-	if(controlMode==PLAYBACK_CONTROL)
-		playbackControl(time);
-	else if(controlMode==PARAMETERED_CONTROL)
-		parameterControl(time);
+{ // heavily modified by Sean Lee on 7/21/12-7/22/12 for adding smartcroping function                                                                     
 
-	//maybe keep 2 separate files: one for controller stufvalues and one for simulator/hardware command and readback values (and positions)
-	//but use the same logging enable signals in order to log at the same frames 
-	//	fprintf(controllerOut,"#simtime (jointctrlval(normalized) jointctrlval actualjointangle)x%d xpos ypos absdeltapos\n",m_robJoints.size());
+    if(controlMode==PLAYBACK_CONTROL)
+        playbackControl(time);
+    else if(controlMode==PARAMETERED_CONTROL)
+        parameterControl(time);
 
-	//log controller time
-	if(logControl && controlLogFile) fprintf(controlLogFile,"%.3f ",time); 
-	
+    //maybe keep 2 separate files: one for controller stufvalues and one for simulator/hardware command and readback values (and positions)               
+    //but use the same logging enable signals in order to log at the same frames                                                                          
+    //  fprintf(controllerOut,"#simtime (jointctrlval(normalized) jointctrlval actualjointangle)x%d xpos ypos absdeltapos\n",m_robJoints.size());         
 
-	//check joint limits and clip if necessary 
+    //log controller time                                                                                                                                 
+    if(logControl && controlLogFile) fprintf(controlLogFile,"%.3f ",time);
 
-	for(unsigned i=0;i<m_jointTargets.size();i++) {
-		float angularPos=m_jointTargets[i];
-		if(logControl && controlLogFile) fprintf(controlLogFile,"%.3f ",angularPos); //log control angles
-		if(logControl && controlLogFile) fprintf(controlLogFile,"%.1f ",angleToServo(angularPos)); //log control angles (servo coordinates)
 
-		std::pair<float,float> lims;
-		lims=m_jointLimitAngles[i];
+    diagAngleThresh=730;// updated by Sean Lee 7/21/12                                                                                                    
+    for(unsigned i=0;i<(m_jointTargets.size()-2);i+=2) {
 
-		if(angularPos<lims.first) angularPos=lims.first; 
-		if(angularPos>lims.second) angularPos=lims.second; 
-		if(logControl && controlLogFile) fprintf(controlLogFile,"%.1f ",angleToServo(angularPos)); //log clipped control angles 
+        float angularPos_inner=angleToServo(m_jointTargets[i]);
+        float angularPos_outer=angleToServo(m_jointTargets[i+1]);
 
-		setJointTarget(i,angularPos); //write clipped value back to joint targets
-	}
+        if(logControl && controlLogFile) fprintf(controlLogFile,"%.3f ",servoToAngle(angularPos_inner)); //log control angles                             
+        if(logControl && controlLogFile) fprintf(controlLogFile,"%.1f ",angularPos_inner); //log control angles (servo coordinates)                       
+        if(logControl && controlLogFile) fprintf(controlLogFile,"%.3f ",servoToAngle(angularPos_outer)); //log control angles                             
+        if(logControl && controlLogFile) fprintf(controlLogFile,"%.1f ",angularPos_outer); //log control angles (servo coordinates)                       
 
-	if(logControl && controlLogFile) fprintf(controlLogFile,"\n");
+        std::pair<float,float> lims_inner;
+        lims_inner=m_jointLimitAngles[i];
+        std::pair<float,float> lims_outer;
+        lims_outer=m_jointLimitAngles[i+1];
 
-	//logging:
-	//print interval
-	//joint control value
-	//clipped control value
-	//actual read actuator value (sim / hw)
-	//read position values (sim / hw)
+        lims_inner.first=angleToServo(lims_inner.first);
+        lims_inner.second=angleToServo(lims_inner.second);
+        lims_outer.first=angleToServo(lims_outer.first);
+        lims_outer.second=angleToServo(lims_outer.second);
 
-	//static float nextIntervalPrint=0;
-	//bool debugPrint=false;
-	//	if(simulationTime>nextIntervalPrint) {
-	//		debugPrint=true;
-	//		nextIntervalPrint+=PRINT_INTERVAL;
-	//	}
-	//}
+        /////////// cropping function, added by Sean Lee on 7/21/2012  ///////////                                                                                
+
+        // square cropping function                                                                                                                               
+        // inner joint                                                                                                                                    
+        if(angularPos_inner<lims_inner.first) angularPos_inner=lims_inner.first;
+        if(angularPos_inner>lims_inner.second) angularPos_inner=lims_inner.second;
+
+        // outer joint                                                                                                                                    
+        if(angularPos_outer<lims_outer.first) angularPos_outer=lims_outer.first;
+        if(angularPos_outer>lims_outer.second) angularPos_outer=lims_outer.second;
+
+        // smart cropping function                                                                                                                                
+        if ((angularPos_inner+angularPos_outer) < diagAngleThresh) {
+            float delta;
+            delta = (diagAngleThresh-angularPos_inner-angularPos_outer)/2;
+            angularPos_inner += delta;
+            angularPos_outer += delta;
+        }
+
+        cout << "new_angularpos_in = " << angularPos_inner << endl;
+        cout << "new_angularpos_out = " << angularPos_outer << endl;
+
+        if(logControl && controlLogFile) fprintf(controlLogFile,"%.1f ",angularPos_inner); //log clipped control angles                                   
+        setJointTarget(i,servoToAngle(angularPos_inner)); //write clipped value back to joint targets                                                     
+        if(logControl && controlLogFile) fprintf(controlLogFile,"%.1f ",angleToServo(angularPos_outer)); //log clipped control angles                     
+        setJointTarget(i+1,servoToAngle(angularPos_outer)); //write clipped value back to joint targets                                                   
+    }
+
+    if(logControl && controlLogFile) fprintf(controlLogFile,"\n");
 }
+
 
 void Quadrobot::init(QuadroParams* params /* =NULL */ )
 {
@@ -270,9 +288,9 @@ void Quadrobot::init(QuadroParams* params /* =NULL */ )
 	m_innerAngleMin=servoToAngle(150); //-362
 	m_innerAngleMax=servoToAngle(770); //+258
 	m_outerAngleMin=servoToAngle(30);
-	m_outerAngleMax=servoToAngle(940);
-	m_coreAngleMin=servoToAngle(512-180);
-	m_coreAngleMax=servoToAngle(512+180);
+	m_outerAngleMax=servoToAngle(680); // changed by Sean on 7/21/12
+	m_coreAngleMin=servoToAngle(512-120);  // changed by Sean on 7/21/12
+	m_coreAngleMax=servoToAngle(512+120);  // changed by Sean on 7/21/12
 
 
 	typedef std::pair<float,float> LimPair;
@@ -281,7 +299,6 @@ void Quadrobot::init(QuadroParams* params /* =NULL */ )
 		m_jointLimitAngles.push_back(LimPair(m_outerAngleMin,m_outerAngleMax)); //angular limits outer joint
 	}
 	m_jointLimitAngles.push_back(LimPair(m_coreAngleMin,m_coreAngleMax)); //angular limits core
-
 	controlLogFile=NULL;
 	logControl=false;
 }
