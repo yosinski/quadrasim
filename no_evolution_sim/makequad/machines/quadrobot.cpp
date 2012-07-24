@@ -260,9 +260,6 @@ void Quadrobot::updateControl(float time)
             angularPos_outer += delta;
         }
 
-        cout << "new_angularpos_in = " << angularPos_inner << endl;
-        cout << "new_angularpos_out = " << angularPos_outer << endl;
-
         if(logControl && controlLogFile) fprintf(controlLogFile,"%.1f ",angularPos_inner); //log clipped control angles                                   
         setJointTarget(i,servoToAngle(angularPos_inner)); //write clipped value back to joint targets                                                     
         if(logControl && controlLogFile) fprintf(controlLogFile,"%.1f ",angleToServo(angularPos_outer)); //log clipped control angles                     
