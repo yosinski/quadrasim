@@ -1,0 +1,41 @@
+QuadraTot simulator
+
+----------------------------
+
+evolution.exe - starts an evolutionary run
+
+keys:
+F1 - toggle visualization, speeds up evolution especially if you have a slow GPU
+F4 - toggle 60Hz frame rate lock, this is "real" time.
+F5 - "orbit" cam (default). mouse pos - orbiting, mouse wheel - zoom
+F6 - follow cam. can be combined with pressing mouse button for orbit mode
+F7 - free cam. arrow keys - turn, awdx - translate, ec - up/down
+
+lctrl - hold down for debug visualization - shows shapes and joint etc.
+
+eye candy:
+F11 - toggle polygon mesh display (does not affect the simulation)
+"'" - glow
+"." - noise
+"-" - image overlay
+
+
+----------------------------
+
+test.exe - starts "test" mode where you can test the robot. also accepts command line arguments:
+
+command line arguments: [-i InputFile -o OutputFile -n -l]
+        n: No GUI
+        l: loop playback of control file
+        InputFile: Control file name  (try the cmd_*.txt files)
+        OutputFile: Output log file name
+		
+keys (in addition to the ones from above):
+F3 - toggle animation
+F12 - freeze simulation (but not camera)
+
+u - load quadratot robot
+lctrl + u load robot with log_bestind.txt which is the current best result from evolution
+ralt + u load robot with cmd_fixed_positions.txt and plays back position keys with linear interpolation
+
+		
