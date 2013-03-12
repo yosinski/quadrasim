@@ -5,7 +5,7 @@ QuadraSim is a simulator used in the Cornell Creative Machines Laboratory to sim
 
 
 
-Installation for the simulator in Linux
+Installing the Simulator in Linux
 -------------------------------------------
 
 First download the Nvidia PhysX engine for Linux.
@@ -15,17 +15,23 @@ You must also install and link the necessary boost libraries, Nvidia Cg Toolkit,
 
 
 Then in shell, use the command
+
     make clean all
+
 to compile the simulator
 
 To use the simulator place the data/ directory which contains the robot information inside the simulator directory, then use the command
+
     ./name_of_simulator 
+
 to open the simulator.
 
 To input a gait, use the command
+
     ./name_of_simulator -i gait_file_name
 
 To input a gait and specify the name of the output the results of that gaitfile, use the command
+
     ./name_of_simulator -i gait_file_name -o output_file_name
 
 
@@ -33,7 +39,7 @@ To record a video of the gaits (non-headless simulator), you can press TAB, whic
 
 
 
-Installation for the simulator in Windows
+Installing the Simulator in Windows
 ------------------------------------------
 
 Use the standalone file.
