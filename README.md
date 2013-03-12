@@ -1,7 +1,7 @@
 QuadraSim
 =========
 
-[QuadraSim](https://github.com/yosinski/quadrasim) is a simulator used in the [Robotics and Intelligent Systems (ROBIN)](http://www.mn.uio.no/ifi/english/research/groups/robin/) group and the [Cornell Creative Machines Laboratory](http://creativemachines.cornell.edu/) to simulate gaits for a research project by Suchan Lee, [Jason Yosinski](http://yosinski.com), and [Jeff Clune](http://jeffclune.com). The simulator was originally written by [Kyrre Glette](http://folk.uio.no/kyrrehg) of the University of Oslo.
+[QuadraSim](https://github.com/yosinski/quadrasim) is a simulator, originally used by the [Robotics and Intelligent Systems (ROBIN)](http://www.mn.uio.no/ifi/english/research/groups/robin/) group and the [Cornell Creative Machines Laboratory](http://creativemachines.cornell.edu/) to simulate gaits for a research project by Suchan Lee, [Jason Yosinski](http://yosinski.com), and [Jeff Clune](http://jeffclune.com). The first version of the simulator was written by [Kyrre Glette](http://folk.uio.no/kyrrehg) of the University of Oslo.
 
 
 
